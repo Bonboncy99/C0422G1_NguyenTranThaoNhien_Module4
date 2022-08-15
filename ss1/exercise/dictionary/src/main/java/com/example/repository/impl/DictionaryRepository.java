@@ -1,11 +1,12 @@
 package com.example.repository.impl;
 
 import com.example.repository.IDictionaryRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 
-@Service
+@Repository
 public class DictionaryRepository implements IDictionaryRepository {
     String []englishWords = {"cat","trung","pig"};
     String []vietnameseWords = {"Mèo","Chó","Heo"};
