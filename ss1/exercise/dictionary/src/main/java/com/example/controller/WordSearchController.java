@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Locale;
 
 @Controller
-public class WordSearch {
+public class WordSearchController {
 
     @Autowired
-    IDictionaryService iDictionaryService;
+    private IDictionaryService iDictionaryService;
 
     @GetMapping("/search")
     public String seach(@RequestParam String word, Model model){

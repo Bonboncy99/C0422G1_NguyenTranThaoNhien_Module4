@@ -15,13 +15,13 @@
 <body>
 <form action="/convert">
     <p>Số tiền cần đổi:</p>
-    <input type="number" name="soTienCanDoi" required value="${soTienCanDoi}">
+    <input type="number" name="money" required value="${money}">
     <p>Tỉ giá</p>
-    <input type="number" name="tiGia" required value="${tiGia}" >
+    <input type="number" name="rate" required value="${rate}">
 
     <button>Chuyển đổi</button>
 </form>
-<p>${ketQua}</p>
+<p>${result}</p>
 <p>${mess}</p>
 </body>
 </html>

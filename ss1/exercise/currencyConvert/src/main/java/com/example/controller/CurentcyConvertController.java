@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CurentcyConvertController {
 
     @Autowired
-    IConvertService iConvertService;
+    private IConvertService iConvertService;
 
 
     @GetMapping("/")
@@ -22,16 +22,16 @@ public class CurentcyConvertController {
     }
 
     @GetMapping("/convert")
-    public  String convert(@RequestParam String soTienCanDoi, @RequestParam String tiGia, Model model){
-        if (soTienCanDoi.equals("") ||tiGia.equals("")){
+    public  String convert(@RequestParam String money, @RequestParam String rate, Model model){
+        if (model.equals("") ||rate.equals("")){
             model.addAttribute("mess","Không dược để trống");
         } else {
-            double soTien1 = Double.parseDouble(soTienCanDoi);
-            double tiGia1 = Double.parseDouble(tiGia);
-            double ketQua = this.iConvertService.convert(soTien1, tiGia1);
-            model.addAttribute("ketQua", ketQua);
-            model.addAttribute("soTienCanDoi", soTienCanDoi);
-            model.addAttribute("tiGia", tiGia);
+            double money1 = Double.parseDouble(money);
+            double rate1 = Double.parseDouble(rate);
+            double result = this.iConvertService.convert(money1, rate1);
+            model.addAttribute("result", result);
+            model.addAttribute("money", money);
+            model.addAttribute("rate", rate);
         }
         return "/home";
     }

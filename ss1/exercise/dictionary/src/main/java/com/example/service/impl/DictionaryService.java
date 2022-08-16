@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class DictionaryService implements IDictionaryService {
 
     @Autowired
-    IDictionaryRepository iDictionaryRepository;
+    private IDictionaryRepository iDictionaryRepository;
     @Override
     public String translate(String word) {
         return this.iDictionaryRepository.translate(word);
