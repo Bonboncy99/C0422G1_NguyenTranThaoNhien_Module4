@@ -13,6 +13,7 @@ public class CondimentsService implements ICondimentsService {
 
     @Autowired
     private ICondimentsRepository condimentsRepository;
+
     @Override
     public List<Condiment> findAll() {
         return this.condimentsRepository.findAll();
