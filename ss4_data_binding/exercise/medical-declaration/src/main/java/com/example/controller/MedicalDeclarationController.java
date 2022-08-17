@@ -50,7 +50,7 @@ public class MedicalDeclarationController {
     @PostMapping("/create")
     public String create(@ModelAttribute MedicalDeclaration medicalDeclaration, RedirectAttributes redirectAttributes) {
         this.iMedicalDaclarationService.add(medicalDeclaration);
-        redirectAttributes.addFlashAttribute("mess", " Create success");
+        redirectAttributes.addFlashAttribute("messCreate", " Create success");
         return "redirect:/list";
     }
 
@@ -69,7 +69,7 @@ public class MedicalDeclarationController {
     @PostMapping("/update")
     public String update(@ModelAttribute MedicalDeclaration medicalDeclaration, RedirectAttributes redirectAttributes) {
         this.iMedicalDaclarationService.update(medicalDeclaration);
-        redirectAttributes.addFlashAttribute("mess", "Update Success");
+        redirectAttributes.addFlashAttribute("messUpdate", "Update Success");
         return "redirect:/list";
     }
 }

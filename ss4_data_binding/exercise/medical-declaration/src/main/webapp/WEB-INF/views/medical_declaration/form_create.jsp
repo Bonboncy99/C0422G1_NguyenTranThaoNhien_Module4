@@ -15,64 +15,96 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-<h1>TỜ KHAI Y TẾ</h1>
-<h2>ĐÂY LÀ TÀI LIỆU QUAN TRỌNG, THÔNG TIN CỦA ANH CHỊ SẼ GIÚP CƠ QUAN Y TẾ LIÊN LẠC KHI CẦN THIẾT ĐỂ PHÒNG CHỐNG DỊCH
-    BỆNH TRUYỀN NHIỄM</h2>
-<p>Khuyến cáo: Khai báo thông tin sai là vi phạm pháp luật Việt Nam và có thể xử lý hình sự</p>
+<div class="container">
+    <div>
+        <h1 class="p-3 bg-success text-center text-white">CẬP NHẬT TỜ KHAI Y TẾ</h1>
+        <h3 class="text-center">ĐÂY LÀ TÀI LIỆU QUAN TRỌNG, THÔNG TIN CỦA ANH CHỊ SẼ GIÚP CƠ QUAN Y TẾ LIÊN LẠC KHI CẦN
+            THIẾT ĐỂ PHÒNG CHỐNG DỊCH BỆNH TRUYỀN NHIỄM</h3>
+        <p class="text-center text-danger">Khuyến cáo: Khai báo thông tin sai là vi phạm pháp luật Việt Nam và có thể
+            xử lý hình sự</p>
+    </div>
+</div>
 
-<form:form action="/create" method="post" modelAttribute="medicalDeclaration">
-    <div>
-        <h5>Họ tên</h5>
-        <form:input path="name"/>
-    </div>
-    <div>
-        <h5>Năm sinh</h5>
-        <form:select path="yearOfBirth" items="${years}"/>
-    </div>
-    <div>
-        <h5>Giới tính</h5>
-        <form:select path="gender" items="${genders}"/>
-    </div>
-    <div>
-        <h5>Quốc tịch</h5>
-        <form:select path="nationality" items="${nationalities}"/>
-    </div>
-    <div>
-        <h5>Số CMND/Hộ Khẩu</h5>
-        <form:input path="idCode"/>
-    </div>
-    <div>
-        <h5>Số hiệu phương tiện</h5>
-        <form:input path="vehicleCode"/>
-    </div>
-    <div>
-        <h5>Thông tin đi lại</h5>
-        <Form:radiobuttons path="vehicles" items="${vehicles}"/>
-    </div>
-    <div>
-        <h5>Số ghế</h5>
-        <form:input path="numberOfSeat"/>
-    </div>
-    <div>
-        <h5>Ngày Khởi hành</h5>
-        <form:select path="startDay" items="${days}"/>
-        <form:select path="startMonth" items="${months}"/>
-        <form:select path="startYear" items="${years}"/>
-    </div>
-    <div>
-        <h5>Ngày kết thúc</h5>
-        <form:select path="endDay" items="${days}"/>
-        <form:select path="endMonth" items="${months}"/>
-        <form:select path="endYear" items="${years}"/>
-    </div>
-    <div>
-        <h5>Những ngày qua đến thành phố nào</h5>
-        <form:textarea path="city"/>
-    </div>
-
-    <button>SAVE</button>
-</form:form>
-
+<div class="container">
+    <form:form action="/create" method="post" modelAttribute="medicalDeclaration">
+        <div class="mb-3">
+            <label for="name">Họ tên (ghi chữ IN HOA) <span class="text-danger">(*)</span></label>
+            <form:input cssClass="form-control" path="name"/>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="yearOfBirth">Năm sinh<span class="text-danger">(*)</span></label>
+                <form:select cssClass="form-control" path="yearOfBirth" items="${years}"/>
+            </div>
+            <div class="col-md-4">
+                <label for="gender">Giới tính<span class="text-danger">(*)</span></label>
+                <form:select cssClass="form-control" path="gender" items="${genders}"/>
+            </div>
+            <div class="col-md-4">
+                <label for="nationality">Quốc tịch<span class="text-danger">(*)</span></label>
+                <form:select cssClass="form-control" path="nationality" items="${nationalities}"/>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="idCode">Số hộ chiếu hoặc số CMND hoặc giấy thông hành hợp pháp khác<span
+                    class="text-danger">(*)</span></label>
+            <form:input cssClass="form-control" path="idCode"/>
+        </div>
+        <div class="mb-3">
+            <label for="vehicles">Thông tin đi lại<span class="text-danger">(*)</span></label>
+            <Form:radiobuttons path="vehicles" items="${vehicles}"/>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="vehicleCode">Số hiệu phương tiện</label>
+                <form:input cssClass="form-control" path="vehicleCode"/>
+            </div>
+            <div class="col-md-6">
+                <label for="numberOfSeat">Số ghế</label>
+                <form:input cssClass="form-control" path="numberOfSeat"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="text-center">Ngày khởi hành</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <form:select cssClass="form-control" path="startDay" items="${days}"/>
+                    </div>
+                    <div class="col-md-4">
+                        <form:select cssClass="form-control" path="startMonth" items="${months}"/>
+                    </div>
+                    <div class="col-md-4">
+                        <form:select cssClass="form-control" path="startYear" items="${years}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="text-center">Ngày kết thúc</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <form:select cssClass="form-control" path="endDay" items="${days}"/>
+                    </div>
+                    <div class="col-md-4">
+                        <form:select cssClass="form-control" path="endMonth" items="${months}"/>
+                    </div>
+                    <div class="col-md-4">
+                        <form:select cssClass="form-control" path="endYear" items="${years}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <h5>Những ngày qua đến thành phố nào</h5>
+            <label for="name">Trong vòng 14 ngày qua, Anh/Chị có đến tỉnh/thành phố nào?<span
+                    class="text-danger">(*)</span></label>
+            <form:textarea cssClass="form-control" path="city"/>
+        </div>
+        <button class="btn btn-outline-success">Save</button>
+        <a class="btn btn-primary" href="/list">Quay lại</a>
+    </form:form>
+</div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

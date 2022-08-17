@@ -18,7 +18,9 @@
 <body>
 <h1 class="p-3 bg-success text-white text-center">List Medical Daclaration</h1>
 
-<p class="text-success">${mess}</p>
+<p class="text-success text-center">${messCreate}</p>
+<p class="text-success text-center">${messUpdate}</p>
+
 <div class="container mt-5 mb-3">
     <a class="btn btn-success" href="/">Create</a>
 </div>
