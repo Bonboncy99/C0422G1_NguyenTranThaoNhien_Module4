@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{header::css}"></th:block>
+    <style>
+        body {
+            background: url("https://wallpaperaccess.com/full/187163.jpg") 100%;
+        }
+    </style>
+
+
+</head>
+<body>
+<nav th:replace="~{header::header}"></nav>
+<h1 class="p-3 text-center text-white bg-success">THÊM SẢN PHẨM</h1>
+<div class="container d-flex justify-content-center mt-5 mb-5">
+    <form class="text-success bg-light p-5 w-75 shadow-lg" action="/create" method="post" th:object="${product}">
+        <div class="mb-3">
+            <label for="name">Nhập tên sản phẩm</label>
+            <input required class="form-control" type="text" th:field="*{name}" id="name">
+        </div>
+        <div class="mb-3">
+            <label for="price">Nhập giá sản phẩm</label>
+            <input required class="form-control" type="text" th:field="*{price}" id="price">
+        </div>
+        <div class="mb-3">
+            <label for="description">Nhập mô tả của sản phẩm</label>
+            <input required class="form-control" type="text" th:field="*{description}" id="description">
+        </div>
+        <div class="mb-3">
+            <label for="producer">Nhập nhà sản xuất</label>
+            <input required class="form-control" type="text" th:field="*{producer}" id="producer">
+        </div>
+        <button class="btn btn-outline-success">THÊM</button>
+        <a class="btn btn-primary" href="/">QUAY LẠI</a>
+    </form>
+</div>
+
+<script th:replace="~{header::js}"></script>
+</body>
+</html>
