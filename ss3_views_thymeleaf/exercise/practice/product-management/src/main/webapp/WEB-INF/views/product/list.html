@@ -1,0 +1,97 @@
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <th:block th:replace="~{header::css}"></th:block>
+        <style>
+            body {
+                background: url("https://img.freepik.com/free-vector/abstract-watercolor-pastel-background_87374-139.jpg?w=2000");
+            }
+        </style>
+    </head>
+    <body>
+    <nav th:replace="~{header::header}"></nav>
+    <h1 class="p-3 text-center text-white bg-primary">DANH SÁCH SẢN PHẨM</h1>
+    <div class="container">
+        <div class="mb-5 mt-5">
+            <form action="/search" method="get">
+                <input type="text" name="nameSearch" id="nameSearch" placeholder="Nhập tên sản phẩm">
+                <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
+            </form>
+            <a href="/create" class="btn btn-success">Thêm mới</a>
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead class="table-info">
+            <tr>
+                <th>STT</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Producer</th>
+                <th>Detail</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product,status :${productList}">
+                <td th:text="${status.count}"></td>
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.description}"></td>
+                <td th:text="${product.producer}"></td>
+                <td>
+                    <a class="btn btn-outline-info" th:href="@{/detail(id=${product.id})}">Detail</a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" th:href="@{/update(id=${product.id})}">Update</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            th:onclick=|getInfoToDelete(${product.id})|>
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- The Delete Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header bg-danger text-white">
+                    <h4 class="modal-title">Xóa sản phẩm</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form action="/delete">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        XÓA?
+                        <input hidden type="text" id="idDelete" name="idDelete">
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function getInfoToDelete(id) {
+            document.getElementById("idDelete").value = id;
+        }
+    </script>
+    <script th:replace="~{header::js}"></script>
+    </body>
+    </html>
