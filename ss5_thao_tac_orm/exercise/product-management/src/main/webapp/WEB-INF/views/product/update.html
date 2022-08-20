@@ -16,6 +16,11 @@
 <h1 class="p-3 text-center text-white bg-warning">CẬP NHẬT SẢN PHẨM</h1>
 <div class="container d-flex justify-content-center mt-5 mb-5">
     <form class="text-warning bg-light p-5 w-75 shadow-lg" action="/update" method="post" th:object="${product}">
+<!--       ID-->
+        <div class="mb-3">
+            <label>ID</label>
+            <input type="text" name="id" th:field="*{id}" readonly>
+        </div>
         <div class="mb-3">
             <label for="name">Nhập tên sản phẩm</label>
             <input required class="form-control" type="text" th:field="*{name}" id="name">

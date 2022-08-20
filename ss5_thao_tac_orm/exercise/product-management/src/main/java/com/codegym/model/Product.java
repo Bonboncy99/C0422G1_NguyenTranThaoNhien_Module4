@@ -1,6 +1,12 @@
 package com.codegym.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "product")
 public class Product {
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private double price;
@@ -65,3 +71,11 @@ public class Product {
         this.producer = producer;
     }
 }
+//    Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set
+//        at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.determineDialect(DialectFactoryImpl.java:100)
+//        at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.buildDialect(DialectFactoryImpl.java:54)
+//        at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:137)
+//        at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+//        at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+//        at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+//        ... 104 more
