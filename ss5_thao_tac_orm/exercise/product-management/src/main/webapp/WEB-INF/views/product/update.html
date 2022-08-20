@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{header::css}"></th:block>
+    <style>
+        body {
+            background: url("https://img.freepik.com/free-vector/soft-yellow-watercolor-texture-decorative-background-vector_1055-12504.jpg?w=2000");
+        }
+    </style>
+
+</head>
+<body>
+<nav th:replace="~{header::header}"></nav>
+<h1 class="p-3 text-center text-white bg-warning">CẬP NHẬT SẢN PHẨM</h1>
+<div class="container d-flex justify-content-center mt-5 mb-5">
+    <form class="text-warning bg-light p-5 w-75 shadow-lg" action="/update" method="post" th:object="${product}">
+        <div class="mb-3">
+            <label for="name">Nhập tên sản phẩm</label>
+            <input required class="form-control" type="text" th:field="*{name}" id="name">
+        </div>
+        <div class="mb-3">
+            <label for="price">Nhập giá sản phẩm</label>
+            <input required class="form-control" type="text" th:field="*{price}" id="price">
+        </div>
+        <div class="mb-3">
+            <label for="description">Nhập mô tả của sản phẩm</label>
+            <input required class="form-control" type="text" th:field="*{description}" id="description">
+        </div>
+        <div class="mb-3">
+            <label for="producer">Nhập nhà sản xuất</label>
+            <input required class="form-control" type="text" th:field="*{producer}" id="producer">
+        </div>
+        <button class="btn btn-outline-warning">CẬP NHẬT</button>
+        <a class="btn btn-primary" href="/">QUAY LẠI</a>
+    </form>
+</div>
+
+<script th:replace="~{header::js}"></script>
+</body>
+</html>

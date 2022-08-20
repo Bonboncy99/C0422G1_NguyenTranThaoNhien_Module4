@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>CẬP NHẬT BÀI HÁT</h1>
+<a href="/">Quay lại</a>
+<form action="/update" method="post" th:object="${song}">
+    <div>
+        <input type="text" th:field="*{id}" name="id" readonly>
+    </div>
+    <div>
+        <label>Tên bài hát</label>
+        <input type="text" required placeholder="Nhập tên bài hát" th:field="*{name}">
+    </div>
+    <div>
+        <label>Nghệ sĩ thể hiện</label>
+        <input type="text" required placeholder="Nhập nghệ sĩ thể hiển" th:field="*{artist}">
+    </div>
+    <div>
+        <label>Thể loại nhạc</label>
+        <input type="text" required placeholder="Nhập thể loại nhạc" th:field="*{type}">
+    </div>
+    <div>
+        <label>Đường dẫn</label>
+        <input type="text" required placeholder="Nhập đường dẫn" th:field="*{path}">
+    </div>
+
+    <button>Cập nhật</button>
+</form>
+
+</body>
+</html>
