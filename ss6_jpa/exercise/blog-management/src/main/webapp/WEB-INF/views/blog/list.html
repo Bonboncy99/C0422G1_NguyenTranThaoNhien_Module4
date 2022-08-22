@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>List Blog</h1>
+<a href="/create">ADD</a>
+<table border="1">
+    <thead>
+    <tr>
+        <td>STT</td>
+        <td>Blog name</td>
+        <td>View</td>
+        <td>Update</td>
+        <td>Delete</td>
+    </tr>
+    </thead>
+    <tbody th:each="blog, status:${blogList}">
+    <tr>
+        <td th:text="${status.count}"></td>
+        <td th:text="${blog.blogName}"></td>
+        <td><a th:href="@{/detail(id=${blog.id})}">DETAIL</a></td>
+        <td><a th:href="@{/update(id=${blog.id})}">UPDATE</a></td>
+        <td><a th:href="@{/delete(id=${blog.id})}">DELETE</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
