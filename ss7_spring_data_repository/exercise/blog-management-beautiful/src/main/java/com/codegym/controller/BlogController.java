@@ -63,7 +63,7 @@ public class BlogController {
         return "detail";
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = {"/search","/"})
     public String search(@RequestParam Optional <Integer> page, @RequestParam(required = false,defaultValue = "") String category,@RequestParam(required = false,defaultValue = "") String nameSearch,Pageable pageable, Model model){
         pageable= PageRequest.of(page.orElse(0),7);
         Page<Blog> blogList =this.iBlogService.findAllByBlogNameContainingAndCategories_Name(nameSearch,category,pageable);
