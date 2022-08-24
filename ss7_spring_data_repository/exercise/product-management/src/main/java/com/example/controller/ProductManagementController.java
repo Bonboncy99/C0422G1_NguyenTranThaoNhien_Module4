@@ -29,7 +29,7 @@ public class ProductManagementController {
     @GetMapping(value = {"/","search"})
     public String goToList(@RequestParam(required = false, defaultValue = "") String nameSearch,Model model,
                            @PageableDefault(size = 2) Pageable pageable){
-        model.addAttribute("productList", this.iProductService.findAll(pageable));
+        model.addAttribute("productList", this.iProductService.searchByName(nameSearch,pageable));
         model.addAttribute("nameSearch",nameSearch);
         model.addAttribute("size",pageable.getPageSize());
         return "list";

@@ -16,7 +16,7 @@
     <div class="container">
         <div class="mb-5 mt-5">
             <form action="/search" method="get">
-                <input type="text" name="nameSearch" id="nameSearch" placeholder="Nhập tên sản phẩm">
+                <input type="text" name="nameSearch" id="nameSearch" placeholder="Nhập tên sản phẩm" th:value="*{nameSearch}">
                 <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
             </form>
             <a href="/create" class="btn btn-success">Thêm mới</a>
@@ -67,7 +67,7 @@
             <li class="page-item"><a class="page-link" th:href="@{'/'(page=${productList.number - 1},nameSearch=${nameSearch})}" th:text="Previous" th:if="${productList.hasPrevious()}">Previous</a></li>
             <li class="page-item"><a class="page-link" th:href="@{'/'(page=${productList.number + 1},nameSearch=${nameSearch})}" th:text="Next" th:if="${productList.hasNext()}">Next</a></li>
             <li class="page-item"><a class="page-link" th:href="@{'/'(page=${productList.totalPages - 1},nameSearch=${nameSearch})}" th:text="Last"></a></li>
-            <li class="page-item"><a class="page-link" href="#">
+            <li class="page-item"><a class="page-link"  href="#">
                 <span th:text="${productList.number+1}"></span>
                 /
                 <span th:text="${productList.totalPages - 1}"></span>
