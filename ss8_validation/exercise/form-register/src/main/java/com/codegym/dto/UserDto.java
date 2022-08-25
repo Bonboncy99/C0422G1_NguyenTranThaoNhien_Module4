@@ -29,7 +29,7 @@ public class UserDto implements Validator {
     private String lastName;
 
     @NotBlank(message = "YOU MUST ENTER, OK?")
-    @Pattern(regexp = "^(0|\\+84)\\d{9}$",message = "Sai format")
+    @Pattern(regexp = "^(0|\\+84)\\d{9}$",message = "Sai format,(0/+84)XXXXXXXXX")
     private String phoneNumber;
 
 

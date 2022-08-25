@@ -18,17 +18,19 @@ public class SongDto {
 
     @NotBlank(message = "Không dc để trống")
     @Size(max = 800,message = "Không dc quá 800 ký tự")
-    @Pattern(regexp = "^[A-Za-z0-9]$")
+    @Pattern(regexp ="^[a-zỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêđâ0-9A-ZĐỲỌÁẦẢẤỜỄÀẠẰỆẾÝỘẬỐŨỨĨÕÚỮỊỖÌỀỂẨỚẶÒÙỒỢÃỤỦÍỸẮẪỰỈỎỪỶỞÓÉỬỴẲẸÈẼỔẴẺỠƠÔƯĂÊÂ\\s]+$",message = "Không chứa các kí tự đặc biệt như @ ; , . = - + , ….")
     private String name;
 
     @NotBlank(message = "Không dc để trống")
-    @Size(max = 300,message = "Không dc quá 800 ký tự")
-    @Pattern(regexp = "^[A-Za-z0-9]$")    private String artist;
+    @Size(max = 300,message = "Không dc quá 300 ký tự")
+    @Pattern(regexp ="^[a-zỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêđâ0-9A-ZĐỲỌÁẦẢẤỜỄÀẠẰỆẾÝỘẬỐŨỨĨÕÚỮỊỖÌỀỂẨỚẶÒÙỒỢÃỤỦÍỸẮẪỰỈỎỪỶỞÓÉỬỴẲẸÈẼỔẴẺỠƠÔƯĂÊÂ\\s]+$",message = "Không chứa các kí tự đặc biệt như @ ; , . = - + , ….")
+    private String artist;
 
     @NotBlank(message = "Không dc để trống")
     @Size(max = 800,message = "Không dc quá 800 ký tự")
-    @Pattern(regexp = "^[A-Za-z0-9 \\,]$")
+    @Pattern(regexp ="^[a-zỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêđâ0-9A-ZĐỲỌÁẦẢẤỜỄÀẠẰỆẾÝỘẬỐŨỨĨÕÚỮỊỖÌỀỂẨỚẶÒÙỒỢÃỤỦÍỸẮẪỰỈỎỪỶỞÓÉỬỴẲẸÈẼỔẴẺỠƠÔƯĂÊÂ\\s\\,]+$", message = "Ngoại trừ dấu phẩy “,” ,Không chứa các kí tự đặc biệt như @ ; , . = - + , ….")
     private String category;
 }
+
 
 

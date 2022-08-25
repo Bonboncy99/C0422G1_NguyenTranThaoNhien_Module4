@@ -7,22 +7,26 @@
 </head>
 <body>
 <h1>Update Song</h1>
+<a href="/" class="btn btn-primary">Return</a>
 
-<form action="/update" method="post" th:object="${songDTO}">
-  <input type="hidden" th:field="*{id}" ></input>
+<form action="/update" method="post" th:object="${songDto}">
+  <input type="hidden" th:field="*{id}">
   <div>
     <label for="name">Enter Name</label>
     <input type="text" th:field="*{name}" id="name">
+    <div th:errors="*{name}"></div>
   </div>
   <div>
     <label for="artist">Enter artist</label>
     <input type="text" th:field="*{artist}" id="artist">
+    <div th:errors="*{artist}"></div>
   </div>
   <div>
     <label for="category">Enter category</label>
     <input type="text" th:field="*{category}" id="category">
+    <div th:errors="*{category}"></div>
   </div>
-  <button>UPDATE</button>
+  <button class="btn btn-warning">Update</button>
 </form>
 </body>
 </html>

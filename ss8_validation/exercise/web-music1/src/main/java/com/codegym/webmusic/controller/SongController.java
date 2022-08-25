@@ -47,7 +47,7 @@ public class SongController {
     }
     @GetMapping("/update")
     public String goToUpdate(@RequestParam int id, Model model){
-        model.addAttribute("songDTO",iSongService.findById(id));
+        model.addAttribute("songDto",iSongService.findById(id));
         return "update";
     }
     @PostMapping("/update")
@@ -58,7 +58,6 @@ public class SongController {
             return "update";
         }
         Song song = new Song();
-        song.setId(songDto.getId());
         BeanUtils.copyProperties(songDto,song);
         this.iSongService.add(song);
         return "redirect:/";
