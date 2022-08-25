@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{Common::css}"></th:block>
+</head>
+<body>
+<h1>Add Song</h1>
+song
+<form action="/add" method="post" th:object="${songDto}">
+    <div>
+        <label for="name">Enter Name</label>
+        <input type="text" th:field="*{name}" id="name">
+        <div th:errors="*{name}"></div>
+    </div>
+    <div>
+        <label for="artist">Enter artist</label>
+        <input type="text" th:field="*{artist}" id="artist">
+        <div th:errors="*{artist}"></div>
+    </div>
+    <div>
+        <label for="category">Enter category</label>
+        <input type="text" th:field="*{category}" id="category">
+        <div th:errors="*{category}"></div>
+    </div>
+    <button>Add</button>
+</form>
+</body>
+</html>

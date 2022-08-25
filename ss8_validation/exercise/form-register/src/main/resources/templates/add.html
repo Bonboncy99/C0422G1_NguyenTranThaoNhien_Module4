@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{header::css}"></th:block>
+    <style>
+        body {
+            background: url("https://wallpaperaccess.com/full/187163.jpg") 100%;
+        }
+    </style>
+
+
+</head>
+<body>
+<nav th:replace="~{header::header}"></nav>
+<h1 class="p-3 text-center text-white bg-success">ADD USER</h1>
+<div class="container d-flex justify-content-center mt-5 mb-5">
+    <form action="/add" th:object="${userDto}" method="post">
+        <div class="mb-3">
+            <label  for="firstName" >Enter Firstname</label>
+            <input type="text" placeholder="Enter Firstname"  th:field="*{firstName}" id="firstName">
+            <div class="text-danger" th:errors="*{firstName}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label  for="lastName" >Enter Lastname</label>
+            <input type="text" placeholder="Enter Lastname"  th:field="*{lastName}" id="lastName">
+            <div class="text-danger" th:errors="*{lastName}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label  for="phoneNumber" >Enter phone number</label>
+            <input type="number" placeholder="Enter phone number"  th:field="*{phoneNumber}" id="phoneNumber">
+            <div class="text-danger" th:errors="*{phoneNumber}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label  for="birthDay" >Choose Birthday</label>
+            <input type="date" th:field="*{birthDay}" id="birthDay">
+            <div class="text-danger" th:errors="*{birthDay}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label  for="email" >Enter email</label>
+            <input type="text" placeholder="Enter email"  th:field="*{email}" id="email">
+            <div class="text-danger" th:errors="*{email}"></div>
+        </div>
+
+        <button class="btn btn-success">ADD</button>
+    </form>
+</div>
+
+<script th:replace="~{header::js}"></script>
+</body>
+</html>

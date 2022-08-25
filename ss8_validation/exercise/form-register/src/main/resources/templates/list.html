@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{header::css}"></th:block>
+    <style>
+        body {
+            background: url("https://img.freepik.com/free-vector/abstract-watercolor-pastel-background_87374-139.jpg?w=2000");
+        }
+    </style>
+</head>
+<body>
+<nav th:replace="~{header::header}"></nav>
+<h1 class="p-3 text-center text-white bg-primary">USERS LIST</h1>
+<a  class="btn btn-success" href="/add">Add user</a>
+<div th:text="${messCreate}"></div>
+<div class="container">
+    <table class="table table-striped table-hover table-dark">
+        <thead>
+        <tr>
+            <td>STT</td>
+            <td>First name</td>
+            <td>Last name</td>
+            <td>Phone number</td>
+            <td>Birthday</td>
+            <td>Email</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user, status:${userList}">
+            <td th:text="${status.count}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.birthDay}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</script>
+<script th:replace="~{header::js}"></script>
+</body>
+</html>
