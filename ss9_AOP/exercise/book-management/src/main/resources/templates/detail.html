@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Borrow book</h1>
+<a href="/">Quay lại</a>
+
+<p th:text="${messBorrow}"></p>
+<div th:object="${book}">
+    Tên sách: <span th:text="*{name}"></span>
+    <br>
+    Tác giả: <span th:text="*{author}"></span>
+    <br>
+    Số lượng còn lại: <span th:text="*{remainingQuantity}"></span>
+    <br>
+</div>
+<a th:href="@{/borrow(id = ${book.id})}">Thuê</a>
+
+</body>
+</html>

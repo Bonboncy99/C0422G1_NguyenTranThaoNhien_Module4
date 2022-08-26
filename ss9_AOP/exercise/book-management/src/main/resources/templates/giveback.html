@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Trả sách</h1>
+<a href="/">Quay lại</a>
+<p th:text="${messGiveBack}"></p>
+<form action="/giveback" method="post">
+  <div>
+    <label for="idBook">Nhập Id sách</label>
+    <input type="number" placeholder="Nhập id sách" required name="idBook" id="idBook">
+  </div>
+  <button type="submit">Trả sách</button>
+</form>
+</body>
+</html>
