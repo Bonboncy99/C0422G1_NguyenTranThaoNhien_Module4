@@ -3,6 +3,8 @@ package com.codegym.controller;
 import com.codegym.model.Book;
 import com.codegym.repository.IBookRepository;
 import com.codegym.service.IBookService;
+import com.common.BookNotFoundException;
+import com.common.OutOfBookException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,17 +32,10 @@ public class BookController {
 
     @GetMapping("/borrow")
     public String borrow(@RequestParam("id") int id, Model model) throws Exception {
-        String messBorrow="";
         Book book = this.iBookService.findById(id);
-        int remainingQuantity = book.getRemainingQuantity();
-        if (remainingQuantity > 0) {
-            book.setRemainingQuantity(remainingQuantity - 1);
-            this.iBookService.update(book);
-            messBorrow = "Đã mượn sách hành công";
-        }  else {
-            throw new Exception();
+        if (this.iBookService.borrowBook(book)){
+            model.addAttribute("messBorrow", "Mượn sách thành công");
         }
-        model.addAttribute("messBorrow", messBorrow);
         model.addAttribute("id", id);
         model.addAttribute("book", book);
         return "detail";
@@ -53,28 +48,21 @@ public class BookController {
 
     @PostMapping("/giveback")
     public String giveBack(@RequestParam("idBook") int idBook, Model model) throws Exception {
-        String messGiveBack;
         Book book = this.iBookService.findById(idBook);
-        int remainingQuantity;
-        int quantity;
-        if (book==null){
-           throw new Exception();
-        } else {
-            remainingQuantity = book.getRemainingQuantity();
-            quantity = book.getQuantity();
-            if (remainingQuantity == quantity) {
-                    throw new Exception();
-            } else {
-                book.setRemainingQuantity(remainingQuantity + 1);
-                this.iBookService.update(book);
-                messGiveBack = "Trả sách thành công";
-            }
+        if (this.iBookService.giveBack(book)){
+            model.addAttribute("messGiveBack","Trả sách thành công");
         }
-        model.addAttribute("messGiveBack",messGiveBack);
         return "giveback";
     }
-    @ExceptionHandler(value = Exception.class)
-    public String goToBookError() {
-            return "notfound";
+
+    @ExceptionHandler(value = BookNotFoundException.class)
+    public String goToNotFound(Model model) {
+        model.addAttribute("mess","Book not found");
+        return "bookerror";
+    }
+    @ExceptionHandler(value = OutOfBookException.class)
+    public String goToOutOfBook(Model model) {
+        model.addAttribute("mess","Out of book");
+        return "bookerror";
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IBookService {
     List<Book> findAll();
-    void update(Book book);
     Book findById(int id);
+    boolean borrowBook(Book book) throws Exception;
+    boolean giveBack(Book book) throws Exception;
 }
