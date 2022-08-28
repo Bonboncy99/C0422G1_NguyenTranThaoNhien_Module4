@@ -2,17 +2,166 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>List Customer</title>
+    <title>Add Customer</title>
     <th:block th:replace="~{common/common::css}"></th:block>
 </head>
 <body>
 <!--navbar-->
 <div th:replace="~{common/common::navbar}"></div>
-<h1>List Customer</h1>
+
+<body>
+<h1 class="bg-light text-info text-center">LIST CUSTOMER</h1>
+
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <a class="btn btn-success" href="/customer/add">
+                ADD
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-plus-square" viewBox="0 0 16 16">
+                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </a>
+        </div>
+        <div class="col-md-8">
+            <form action="/customer/search" method="get">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label" for="nameSearch">Name</label>
+                        <input class="form-control" type="text" id="nameSearch" th:value="${nameSearch}" name="nameSearch">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="phoneSearch">Phone</label>
+                        <input class="form-control" type="text" id="phoneSearch" th:value="${phoneSearch}"name="phoneSearch">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="emailSearch">Email</label>
+                        <input class="form-control" type="text" id="emailSearch" th:value="${emailSearch}"name="emailSearch">
+                    </div>
+                </div>
+                <div class="row">
+                    <select name="customerTypeName" class="form-control">
+                        <option value="">Select Customer Type</option>
+                        <option th:each="customerType:${customerTypeList}" th:value="${customerType.customerTypeName}" th:text="${customerType.customerTypeName}"></option>
+                    </select>
+                </div>
+                <button class="btn btn-success">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Table-->
+<div class="container table-responsive ">
+    <table class="table table-bordered table-hover table-striped table-active">
+        <thead class="table-info table-bordered text-dark text-center">
+        <tr>
+            <th>Số TT</th>
+            <th>ID</th>
+            <th>Customer Type</th>
+            <th>Name</th>
+            <th>Date of birth</th>
+            <th>Gender</th>
+            <th>Id card</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer,status:${customerList}">
+            <td th:text="${status.count + size*customerList.number}"></td>
+            <td th:text="${customer.customerId}"></td>
+            <td th:text="${customer.customerType.customerTypeName}"></td>
+            <td th:text="${customer.customerName}"></td>
+            <td th:text="${customer.dateOfBirth}"></td>
+            <td th:if="${customer.gender == true}">Nam</td>
+            <td th:if="${customer.gender == false}">Nữ</td>
+            <td th:text="${customer.idCard}"></td>
+            <td th:text="${customer.phoneNumber}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.address}"></td>
+            <td>
+                <a class="btn btn-outline-warning" th:href="@{/customer/update(idUpdate=${customer.customerId})}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd"
+                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                </a>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal" th:attr="onclick=|getInfoToDelete('${customer.customerId}','${customer.customerName}')|">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                    </svg>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+Phân trang
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a  class="page-link" th:href="@{/customer(page=0,nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}">First</a></li>
+        <li class="page-item"><a class="page-link" th:href="@{/customer(page=${customerList.number - 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}" th:if="${customerList.hasPrevious()}">Previous</a></li>
+        <li class="page-item"><a class="page-link" th:href="@{/customer(page=${customerList.number + 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}" th:if="${customerList.hasNext()}">Next</a></li>
+        <li class="page-item"><a class="page-link" th:href="@{/customer(page=${customerList.totalPages - 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}">Last</a></li>
+        <li class="page-item disabled">
+            <a href="#" class="page-link">
+                <span th:text="${customerList.number + 1}"></span>
+                /
+                <span th:text="${customerList.totalPages}"></span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
 
-<!--Footer-->
-<footer th:replace="~{common/common::footer}"></footer>
+<!-- Delete Modal -->
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete customer</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/customer/delete" method="post">
+                <div class="modal-body">
+                    Do you want to delete this customer?
+                    <div class="input-group">
+                        <span class="input-group-text">Id</span>
+                        <input type="text" class="form-control" id="idDelete" name="idDelete">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text">Name</span>
+                        <input type="text" class="form-control" id="nameDelete" name="nameDelete">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function getInfoToDelete(id, named) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").value = named;
+    }
+</script>
+<script src="../bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+</body>
 <script th:replace="~{common/common::js}"></script>
 </body>
 </html>

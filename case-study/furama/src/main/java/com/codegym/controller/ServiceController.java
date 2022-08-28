@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/service")
 @Controller
 public class ServiceController {
-    @GetMapping("/")
+    @GetMapping("")
     public String goToServiceList() {
         return "service/list";
     }

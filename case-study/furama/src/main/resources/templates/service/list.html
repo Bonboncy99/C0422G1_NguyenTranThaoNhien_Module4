@@ -10,9 +10,228 @@
 <div th:replace="~{common/common::navbar}"></div>
 <h1>List Service</h1>
 
+<h1 class="bg-success text-center text-white p-3" style="margin-top: 150px">Danh sách dịch vụ</h1>
 
-<!--Footer-->
-<footer th:replace="~{common/common::footer}"></footer>
-<script th:replace="~{common/common::js}"></script>
+<div class="container">
+    <a class="btn btn-success mt-3 mb-3" href="/service/add">Thêm mới dịch vụ</a>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-light table-striped table-responsive">
+            <thead class="table-success text-center">
+            <tr>
+                <th>#</th>
+                <th>Tên dịch vụ</th>
+                <th colspan="3">Các chức năng</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>1</td>
+                <td>Villa Beach Front</td>
+                <td>
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewModal">
+                        View
+                    </button>
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" href="/service/update">Update</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="getInfoToDelete()">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>House Princess 01</td>
+                <td>
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewModal">
+
+                        View
+                    </button>
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" href="/service/update">Update</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="getInfoToDelete()">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Room Twin 01</td>
+                <td>
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewModal">
+                        View
+                    </button>
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" href="/service/update">Update</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="getInfoToDelete()">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Villa No Beach Front</td>
+                <td>
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewModal">
+                        View
+                    </button>
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" href="/service/update">Update</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="getInfoToDelete()">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>House Princess 02</td>
+                <td>
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewModal">
+                        View
+                    </button>
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" href="/service/update">Update</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="getInfoToDelete()">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Room Twin 02</td>
+                <td>
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewModal">
+                        View
+                    </button>
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" href="/service/update">Update</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="getInfoToDelete()">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- The View Modal -->
+<div class="modal" id="viewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">VIEW SERVICE</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-bordered table-success table-hover">
+
+                    <tr>
+                        <th>#</th>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th>Tên dịch vụ</th>
+                        <td>Villa Beach Front</td>
+                    </tr>
+                    <tr>
+                        <th>Diện tích</th>
+                        <td>25000</td>
+                    </tr>
+                    <tr>
+                        <th>Chi phí thuê</th>
+                        <td>1000000</td>
+                    </tr>
+                    <tr>
+                        <th>Số người tối đa</th>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <th>Tiêu chuẩn phòng</th>
+                        <td>vip</td>
+                    </tr>
+                    <tr>
+                        <th>Mô tả tiện nghi khác</th>
+                        <td>Có hồ bơi</td>
+                    </tr>
+                    <tr>
+                        <th>Diện tích hồ bơi</th>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <th>Số tầng</th>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <th>Dịch vụ miễn phí đi kèm</th>
+                        <td>Không</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h4 class="modal-title">Delete Service</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/customer/delete" method="post">
+                <div class="modal-body">
+                    Do you want to delete this service?
+                    <div class="input-group">
+                        <span class="input-group-text">Id</span>
+                        <input type="text" class="form-control" id="idDelete" name="idDelete">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text">Name</span>
+                        <input type="text" class="form-control" id="nameDelete" name="nameDelete">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function getInfoToDelete(id, named) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").value = named;
+    }
+</script>
+    <!--Footer-->
+    <footer th:replace="~{common/common::footer}"></footer>
+    <script th:replace="~{common/common::js}"></script>
 </body>
 </html>

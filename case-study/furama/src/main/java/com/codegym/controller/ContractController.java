@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/contract")
 @Controller
 public class ContractController {
-    @GetMapping("/")
+    @GetMapping("")
     public String goToServiceList() {
         return "contract/list";
     }
