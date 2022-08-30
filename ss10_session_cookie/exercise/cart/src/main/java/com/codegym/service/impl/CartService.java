@@ -42,4 +42,24 @@ public class CartService implements ICartService {
         }
         return total;
     }
+
+    @Override
+    public void removeProduct(Map<Product, Integer> cart, Product product) {
+        cart.remove(product);
+    }
+
+    @Override
+    public int countItem(Map<Product, Integer> cart) {
+        int totalQuantity=0;
+        for (int quantity:cart.values()) {
+            totalQuantity += quantity;
+        }
+        return totalQuantity;
+    }
+
+    @Override
+    public void pay(Map<Product, Integer> cart) {
+        cart.clear();
+    }
+
 }

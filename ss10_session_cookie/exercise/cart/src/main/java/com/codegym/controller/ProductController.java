@@ -50,13 +50,13 @@ public class ProductController {
             return "/404error";
         }
         this.iCartService.addToCart(cart,product);
-        model.addAttribute("cart",cart);
         return "redirect:/";
     }
 
     @GetMapping("/cart")
     public String goToCart(@SessionAttribute Map <Product,Integer>cart, Model model){
         model.addAttribute("cart",cart);
+        model.addAttribute("itemQuantity",this.iCartService.countItem(cart));
         model.addAttribute("total",this.iCartService.total(cart));
         return "cart";
     }
@@ -75,5 +75,20 @@ public class ProductController {
         return "redirect:/cart";
     }
 
+    @GetMapping("/removeproduct")
+    public String removeproduct(@RequestParam int id,
+                                @SessionAttribute Map<Product,Integer>cart){
+        Product product = this.iProductService.findById(id);
+        if (product == null) {
+            return "/404error";
+        }
+        this.iCartService.removeProduct(cart,product);
+        return "redirect:/cart";
+    }
+    @GetMapping("/payOff")
+    public String payOff(@SessionAttribute Map<Product,Integer>cart){
+        this.iCartService.pay(cart);
+        return "redirect:/cart";
+    }
 
 }
