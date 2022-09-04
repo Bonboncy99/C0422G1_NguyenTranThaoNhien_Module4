@@ -1,7 +1,14 @@
-package com.codegym.facility.facility;
-
+package com.codegym.service.facility;
 import com.codegym.model.facility.Facility;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-public interface IFacilityRepository extends JpaRepository<Facility,Integer> {
+public interface IFacilityService {
+    Page<Facility> findAll(Pageable pageable);
+    void add(Facility facility);
+    void update(Facility facility);
+    void delete(int id);
+    Facility findById(int id);
+    Page<Facility>search(String name, String facilityTypeName, Pageable pageable);
+
 }

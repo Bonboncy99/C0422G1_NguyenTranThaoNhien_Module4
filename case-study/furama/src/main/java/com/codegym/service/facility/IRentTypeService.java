@@ -1,7 +1,9 @@
-package com.codegym.facility.facility;
+package com.codegym.service.facility;
 
 import com.codegym.model.facility.RentType;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IRentTypeRepository extends JpaRepository<RentType,Integer> {
+import java.util.List;
+
+public interface IRentTypeService{
+    List<RentType> findAll();
 }

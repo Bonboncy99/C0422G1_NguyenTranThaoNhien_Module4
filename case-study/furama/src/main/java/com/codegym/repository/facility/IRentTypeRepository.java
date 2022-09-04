@@ -1,4 +1,8 @@
 package com.codegym.repository.facility;
 
-public interface IFacilityRepository {
+import com.codegym.model.facility.RentType;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+public interface IRentTypeRepository extends JpaRepository<RentType,Integer> {
 }

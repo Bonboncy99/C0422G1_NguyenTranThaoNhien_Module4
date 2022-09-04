@@ -12,6 +12,8 @@
 <body>
 <h1 class="bg-light text-info text-center">LIST CUSTOMER</h1>
 
+<p class="text-success" th:text="${messUpdate}"></p>
+
 <div class="container mt-3 mb-3">
     <div class="row">
         <div class="col-md-4">
@@ -58,7 +60,6 @@
         <thead class="table-info table-bordered text-dark text-center">
         <tr>
             <th>Số TT</th>
-            <th>ID</th>
             <th>Customer Type</th>
             <th>Name</th>
             <th>Date of birth</th>
@@ -74,7 +75,6 @@
         <tbody>
         <tr th:each="customer,status:${customerList}">
             <td th:text="${status.count + size*customerList.number}"></td>
-            <td th:text="${customer.customerId}"></td>
             <td th:text="${customer.customerType.customerTypeName}"></td>
             <td th:text="${customer.customerName}"></td>
             <td th:text="${customer.dateOfBirth}"></td>
@@ -155,9 +155,9 @@ Phân trang
     </div>
 </div>
 <script>
-    function getInfoToDelete(id, named) {
+    function getInfoToDelete(id, name) {
         document.getElementById("idDelete").value = id;
-        document.getElementById("nameDelete").value = named;
+        document.getElementById("nameDelete").value = name;
     }
 </script>
 <script src="../bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
