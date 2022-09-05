@@ -32,6 +32,10 @@ public class PhoneRestController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deletePhone(@RequestParam int id) {
+        Phone phoneDB = this.iPhoneService.findById(id);
+        if (phoneDB==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         this.iPhoneService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -53,5 +57,4 @@ public class PhoneRestController {
         this.iPhoneService.update(phone);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 }
