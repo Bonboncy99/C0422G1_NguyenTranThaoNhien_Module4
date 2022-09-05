@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +17,12 @@ public class BlogSerivce implements IBlogService {
 
     @Autowired
     private IBlogRepository iBlogRepository;
+
+    @Override
+    public List<Blog> findAll() {
+        return this.iBlogRepository.findAll();
+    }
+
     @Override
     public Page<Blog> findAll(Pageable pageable) {
         return this.iBlogRepository.findAll(pageable);
@@ -50,4 +58,12 @@ public class BlogSerivce implements IBlogService {
             return this.iBlogRepository.findAllByBlogNameContainingAndCategories_Name(blogName,categoryName,pageable);
         }
     }
+
+
+    @Override
+    public Page<Blog> findByCategories_Id(int id, Pageable pageable) {
+        return this.iBlogRepository.findByCategories_Id(id,pageable);
+    }
+
+
 }

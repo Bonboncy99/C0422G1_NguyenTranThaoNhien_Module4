@@ -1,5 +1,7 @@
 package com.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,7 +13,7 @@ public class Category {
     private Integer id;
     private String name;
 
-
+@JsonBackReference
     @OneToMany(mappedBy = "categories")
     private List<Blog> blogList;
 
