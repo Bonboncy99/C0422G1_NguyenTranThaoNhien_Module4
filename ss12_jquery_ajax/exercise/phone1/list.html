@@ -2,9 +2,128 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>List Phone</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
-$END$
+<h1>Phone List</h1>
+<a class="btn-success btn" href="http://localhost:63342/phone1/add.html?_ijt=7g2mj30v218cmnhkhi35pj9uqf">Create</a>
+<table class="table table-info">
+    <thead>
+    <tr>
+        <td>STT</td>
+        <td>ID</td>
+        <td>Producer</td>
+        <td>Model</td>
+        <td>Price</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+</table>
+<!-- The Delete Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Phone</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Do you want to delete?
+                <input type="text" id="inputDelete">
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="deletebtn" data-bs-dismiss="modal">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="js/bootstrap.min.js"></script>
+<script src="jquery-3.6.1.min.js"></script>
+<script>
+    function displayList() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080",
+            success: function (phoneList) {
+                console.log(phoneList)
+                let htmlStr = '';
+                for (let i = 0; i < phoneList.length; i++) {
+                    htmlStr += `<tr>
+                        <td>${i + 1}</td>
+                        <td>${phoneList[i].id}</td>
+                        <td>${phoneList[i].producer}</td>
+                        <td>${phoneList[i].model}</td>
+                        <td>${phoneList[i].price}</td>
+                        <td>
+                            <a href="#" id="Upatate">Update</a>
+<!--                            <button id="deleteBtn" value="${phoneList[i].id}">Deletethuần</button>-->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#myModal" onclick="getIdToDelete(${phoneList[i].id})">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>`;
+                }
+                $("#tableBody").html(htmlStr);
+            },
+            error: function (resultError) {
+            }
+        });
+    }
+
+
+    displayList()
+
+    // $('#deleteBtn').click(function (idDelete) {
+    //      idDelete = $('deleteBtn').val();
+    //     $.ajax({
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         type: "DELETE",
+    //         url: "http://localhost:8080/delete",
+    //         data: JSON.stringify(idDelete),
+    //         success: function(resultSuccess){
+    //             alert('register successfully!')
+    //         },
+    //         error: function(resultError) {
+    //             alert('error');
+    //         }
+    //     });
+    // })
+
+    function getIdToDelete(id){
+        // $('inputDelete').value = id
+        document.getElementById("inputDelete").value = id
+    }
+
+    $('#deletebtn').click(function (idDelete) {
+        idDelete = $('#inputDelete').val();
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/delete?id=" + idDelete,
+            success: function (resultSuccess) {
+                // alert('register successfully!');
+                displayList()
+
+            },
+            error: function (resultError) {
+                // alert('error');
+            }
+        });
+    })
+</script>
 </body>
 </html>

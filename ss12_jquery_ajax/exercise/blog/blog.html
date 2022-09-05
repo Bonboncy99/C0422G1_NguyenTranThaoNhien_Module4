@@ -2,9 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Blog</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
-$END$
+<div class="input-group mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Blog's Name" aria-describedby="searchBtn">
+    <button class="btn btn-outline-secondary" type="button" id="searchBtn">Button</button>
+</div>
+<table class="table table-info">
+    <thead>
+    <tr>
+        <td>STT</td>
+        <td>ID</td>
+        <td>Blog name</td>
+        <td>Authority</td>
+        <td>Categories</td>
+        <td>Update</td>
+    </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+<a href="#" class="btn btn-success" id="readMoreBtn">Xem thêm</a>
+<script src="jquery-3.6.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+
+    let size = 10
+    let add = 3
+    let currentPage = 0;
+    getPageStudent(currentPage);
+
+    function getPageStudent(pageNumber) {
+        let nameSearch = $("#searchInput").val();
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/blogRest/searchName?page=" + pageNumber + "&size=" + size + "&name=" + nameSearch,
+            success: function (blogPage) {
+                let blogList = blogPage.content;
+                let htmlStr = '';
+                for (let i = 0; i < blogList.length; i++) {
+                    htmlStr += `<tr>
+                        <td>${i + 1}</td>
+                        <td>${blogList[i].id}</td>
+                        <td>${blogList[i].blogName}</td>
+                        <td>${blogList[i].authority}</td>
+                        <td>${blogList[i].content}</td>
+                        <td>
+                            <a href="#">Update</a>
+                        </td>
+                    </tr>`;
+                }
+                $("#tableBody").html(htmlStr);
+            },
+            error: function (resultError) {
+            }
+        });
+    }
+
+    $("#searchBtn").click(function () {
+        getPageStudent(currentPage)
+    })
+
+    $("#readMoreBtn").click(function () {
+        size += add;
+        getPageStudent(currentPage);
+    })
+
+</script>
 </body>
 </html>

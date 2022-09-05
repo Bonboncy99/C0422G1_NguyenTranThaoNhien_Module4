@@ -2,9 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
-$END$
+<a href="http://localhost:63342/phone1/list.html?_ijt=6a2e8rc58mjjrgl7aavv5e82lj">Return list</a>
+<p>name</p>
+<input type="text" id="namePhone">
+<p>Producer</p>
+<input type="text" id="producerPhone">
+<p>Price</p>
+<input type="text" id="pricePhone">
+<p>Model</p>
+<input type="text" id="modelPhone">
+<button id="addBtn">ADD</button>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="jquery-3.6.1.min.js"></script>
+<script>
+$('#addBtn').click(function () {
+    let namePhone = $('#namePhone').val();
+    let producerPhone = $('#producerPhone').val();
+    let pricePhone = $('#pricePhone').val();
+    let modelPhone = $('#modelPhone').val();
+    let phone = {
+        name:namePhone,
+        producer: producerPhone,
+        model: modelPhone,
+        price: pricePhone
+    }
+    console.log(phone)
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        url: "http://localhost:8080/create",
+        data: JSON.stringify(phone),
+        success: function(resultSuccess){
+            alert('register successfully!')
+        },
+        error: function(resultError) {
+            alert('error');
+        }
+    });
+})
+</script>
 </body>
 </html>
