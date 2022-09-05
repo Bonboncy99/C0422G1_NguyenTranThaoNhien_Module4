@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
+<input type="text">
 <h1>Phone List</h1>
 <button class="btn btn-success" id="displayFormAdd">ADD</button>
 <button class="btn btn-info" id="displayList">Return</button>
@@ -173,11 +174,15 @@
             url: "http://localhost:8080/create",
             data: JSON.stringify(phone),
             success: function (resultSuccess) {
+                 $('#producerPhone').val("");
+                 $('#pricePhone').val(0);
+                 $('#modelPhone').val("");
                 alert('register successfully!');
                 displayList()
                 $('#formAdd').hide();
                 $('#table').show();
                 $('#displayFormAdd').show();
+
 
             },
             error: function (resultError) {
@@ -220,12 +225,14 @@
         });
     })
 
+    //Return trang chủ
     $('#displayList').click(function () {
         $('#displayFormAdd').show();
         $('#table').show();
         $('#formAdd').hide();
         $('#formUpdate').hide();
     });
+
     displayList()
     $('#formAdd').hide();
     $('#formUpdate').hide();
