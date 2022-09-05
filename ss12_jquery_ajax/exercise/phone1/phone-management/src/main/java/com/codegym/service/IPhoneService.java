@@ -9,6 +9,6 @@ public interface IPhoneService {
     void add(Phone phone);
     void update(Phone phone);
     void delete(int id);
-    void findById(int id);
+    Phone findById(int id);
 
 }

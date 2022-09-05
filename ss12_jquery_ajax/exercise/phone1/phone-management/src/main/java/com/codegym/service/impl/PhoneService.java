@@ -32,7 +32,7 @@ public class PhoneService implements IPhoneService {
     }
 
     @Override
-    public void findById(int id) {
-        this.iPhoneRepository.findById(id);
+    public Phone findById(int id) {
+        return this.iPhoneRepository.findById(id).orElse(null);
     }
 }

@@ -16,21 +16,42 @@ public class PhoneRestController {
     private IPhoneService iPhoneService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Phone>> goToList(){
+    public ResponseEntity<List<Phone>> goToList() {
         List<Phone> phoneList = this.iPhoneService.findAll();
-        if (phoneList.isEmpty()){
+        if (phoneList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(phoneList,HttpStatus.OK);
+        return new ResponseEntity<>(phoneList, HttpStatus.OK);
     }
+
     @PostMapping("/create")
-    public ResponseEntity<Void>addPhone(@RequestBody Phone phone){
+    public ResponseEntity<Void> addPhone(@RequestBody Phone phone) {
         this.iPhoneService.add(phone);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @GetMapping("/delete")
-    public ResponseEntity<Void> deletePhone(@RequestParam int id){
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deletePhone(@RequestParam int id) {
         this.iPhoneService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/update")
+    public ResponseEntity<Phone> getPhone(@RequestParam(defaultValue = "0") int id) {
+        Phone phone = this.iPhoneService.findById(id);
+        if (phone == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(phone,HttpStatus.OK);
+    }
+    @PatchMapping ("/update")
+    public ResponseEntity<Void> update(@RequestBody Phone phone) {
+        Phone phoneDB = this.iPhoneService.findById(phone.getId());
+        if (phoneDB==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        this.iPhoneService.update(phone);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 }

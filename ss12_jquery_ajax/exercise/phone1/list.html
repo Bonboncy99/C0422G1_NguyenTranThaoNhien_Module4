@@ -7,8 +7,9 @@
 </head>
 <body>
 <h1>Phone List</h1>
-<a class="btn-success btn" href="http://localhost:63342/phone1/add.html?_ijt=7g2mj30v218cmnhkhi35pj9uqf">Create</a>
-<table class="table table-info">
+<button class="btn btn-success" id="displayFormAdd">ADD</button>
+<button class="btn btn-info" id="displayList">Return</button>
+<table class="table table-info" id="table">
     <thead>
     <tr>
         <td>STT</td>
@@ -22,6 +23,30 @@
     <tbody id="tableBody">
     </tbody>
 </table>
+
+
+<!--Form Add-->
+<div id="formAdd">
+    <p>Producer</p>
+    <input type="text" id="producerPhone">
+    <p>Price</p>
+    <input type="text" id="pricePhone">
+    <p>Model</p>
+    <input type="text" id="modelPhone">
+    <button id="addBtn" class="btn btn-success">ADD</button>
+</div>
+
+<!--Form update-->
+<div id="formUpdate">
+    <input type="hidden" id="inputIdUpdate">
+    <p>Producer</p>
+    <input type="text" id="producerUpdate">
+    <p>Price</p>
+    <input type="text" id="priceUpdate">
+    <p>Model</p>
+    <input type="text" id="modelUpdate">
+    <button id="updateBtn" class="btn btn-warning">Update</button>
+</div>
 <!-- The Delete Modal -->
 <div class="modal" id="myModal">
     <div class="modal-dialog">
@@ -36,7 +61,6 @@
             <!-- Modal body -->
             <div class="modal-body">
                 Do you want to delete?
-                <input type="text" id="inputDelete">
             </div>
 
             <!-- Modal footer -->
@@ -51,6 +75,7 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="jquery-3.6.1.min.js"></script>
 <script>
+    <!--    hiển thị danh sách-->
     function displayList() {
         $.ajax({
             type: "GET",
@@ -66,9 +91,8 @@
                         <td>${phoneList[i].model}</td>
                         <td>${phoneList[i].price}</td>
                         <td>
-                            <a href="#" id="Upatate">Update</a>
-<!--                            <button id="deleteBtn" value="${phoneList[i].id}">Deletethuần</button>-->
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            <button class="btn btn-warning" onclick="displayFormUpdate(${phoneList[i].id})">Update</button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                             data-bs-target="#myModal" onclick="getIdToDelete(${phoneList[i].id})">
                                 Delete
                             </button>
@@ -82,48 +106,130 @@
         });
     }
 
-
-    displayList()
-
-    // $('#deleteBtn').click(function (idDelete) {
-    //      idDelete = $('deleteBtn').val();
-    //     $.ajax({
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         type: "DELETE",
-    //         url: "http://localhost:8080/delete",
-    //         data: JSON.stringify(idDelete),
-    //         success: function(resultSuccess){
-    //             alert('register successfully!')
-    //         },
-    //         error: function(resultError) {
-    //             alert('error');
-    //         }
-    //     });
-    // })
-
-    function getIdToDelete(id){
-        // $('inputDelete').value = id
-        document.getElementById("inputDelete").value = id
+    function getIdToDelete(id) {
+        $('#deletebtn').val(id);
     }
 
-    $('#deletebtn').click(function (idDelete) {
-        idDelete = $('#inputDelete').val();
+    //Xóa Phone trong DB
+    $('#deletebtn').click(function () {
+        let idDelete = $('#deletebtn').val();
         $.ajax({
-            type: "GET",
+            type: "DELETE",
             url: "http://localhost:8080/delete?id=" + idDelete,
             success: function (resultSuccess) {
-                // alert('register successfully!');
-                displayList()
-
+                alert('register successfully!');
+                displayList();
             },
             error: function (resultError) {
-                // alert('error');
+                alert('error');
             }
         });
     })
+
+    displayList()
+    $('#formAdd').hide();
+    $('#formUpdate').hide();
+
+    //Hiển thị Form Add
+    $('#displayFormAdd').click(function () {
+        $('#formAdd').show();
+        $('#table').hide();
+        $('#displayFormAdd').hide();
+
+    })
+
+    // Hiện form update
+    function displayFormUpdate(id) {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/update?id=" + id,
+            success: function (phone) {
+                $('#inputIdUpdate').val(phone.id);
+                $('#producerUpdate').val(phone.producer);
+                $('#modelUpdate').val(phone.model);
+                $('#priceUpdate').val(phone.price);
+                $('#formUpdate').show();
+                $('#table').hide();
+                $('#displayFormAdd').hide();
+            },
+            error: function (resultError) {
+                alert('error');
+            }
+        });
+    }
+
+    // Add Phone to DataBase
+    $('#addBtn').click(function () {
+        let newProducer = $('#producerPhone').val();
+        let newPrice = $('#pricePhone').val();
+        let newModel = $('#modelPhone').val();
+        let phone = {
+            producer: newProducer,
+            model: newModel,
+            price: newPrice
+        }
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:8080/create",
+            data: JSON.stringify(phone),
+            success: function (resultSuccess) {
+                alert('register successfully!');
+                displayList()
+                $('#formAdd').hide();
+                $('#table').show();
+                $('#displayFormAdd').show();
+
+            },
+            error: function (resultError) {
+                alert('error');
+            }
+        });
+    })
+
+    // Update Phone to DataBase
+    $('#updateBtn').click(function () {
+        let idUpdate = $('#inputIdUpdate').val();
+        let producerPhone = $('#producerUpdate').val();
+        let pricePhone = $('#priceUpdate').val();
+        let modelPhone = $('#modelUpdate').val();
+        let phone = {
+            id: idUpdate,
+            producer: producerPhone,
+            model: modelPhone,
+            price: pricePhone
+        }
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "PATCH",
+            url: "http://localhost:8080/update",
+            data: JSON.stringify(phone),
+            success: function (resultSuccess) {
+                displayList()
+                $('#formAdd').hide();
+                $('#formUpdate').hide();
+                $('#table').show();
+                $('#displayFormAdd').show();
+
+            },
+            error: function (resultError) {
+                alert('error');
+            }
+        });
+    })
+
+    $('#displayList').click(function () {
+        $('#displayFormAdd').show();
+        $('#table').show();
+        $('#formAdd').hide();
+        $('#formUpdate').hide();
+    });
 </script>
 </body>
 </html>
