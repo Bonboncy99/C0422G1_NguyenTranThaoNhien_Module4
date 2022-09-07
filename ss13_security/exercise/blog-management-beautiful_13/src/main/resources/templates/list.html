@@ -7,10 +7,14 @@
 </head>
 <body>
 <h1 class="text-primary text-center">List Blog</h1>
+<p th:text="admin" th:if="${admin!=null}"></p>
+<p th:text="user" th:if="${user!=null}"></p>
+<p th:text="N.U" th:if="${notUser!=null}"></p>
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a href="/blog/showCreate" class="btn btn-success m-5">ADD</a>
+<!--            <a href="/blog/showCreate" class="btn btn-success m-5" th:if="${admin!=null && user!=null}" >ADD</a>-->
+            <a href="/blog/showCreate" class="btn btn-success m-5" th:if="${userInfo.contains('ROLE_ADMIN')||userInfo.contains('ROLE_USER')}" >ADD</a>
         </div>
         <div class="col-md-9">
             <!--form tìm kiếm theo Tên blog-->
@@ -40,8 +44,8 @@
 </div>
 
 <div>
-    <p class="text-center text-success" th:text="${messCreate}"></p>
-    <p class="text-center text-success" th:text="${messUpdate}"></p>
+    <p class="text-center text-success" th:text="${messCreate}" th:if="${messCreate!=null}"></p>
+    <p class="text-center text-success" th:text="${messUpdate}" th:if="${messCreate!=null}"></p>
 </div>
 
 <table class="table table-dark table-striped table-hover">
@@ -59,11 +63,21 @@
     <tr>
         <td th:text="${status.count + blogList.number*size}"></td>
         <td th:text="${blog.blogName}"></td>
-        <td th:text="${blog.categories.name}"></td>
+        <td th:text="${blog.categories.name}"></td>x
         <td><a class="btn btn-outline-primary" th:href="@{/blog/detail(id=${blog.id})}">DETAIL</a></td>
-        <td><a class="btn btn-outline-warning" th:href="@{/blog/showUpdate(id=${blog.id})}">UPDATE</a></td>
+<!--        <td><a class="btn btn-outline-warning" th:if="${admin!=null}" th:href="@{/blog/showUpdate(id=${blog.id})}">UPDATE</a></td>-->
+        <td><a class="btn btn-outline-warning" th:if="${userInfo.contains('ROLE_ADMIN')}" th:href="@{/blog/showUpdate(id=${blog.id})}">UPDATE</a></td>
+<!--        <td>-->
+<!--            <button type="button"  id="searchBtn" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"-->
+<!--                    th:if="${admin!=null}"-->
+<!--                    th:attr="onclick=|getInfoToDelete('${blog.id}','${blog.blogName}')|">-->
+<!--                DELETE-->
+<!--            </button>-->
+<!--        </td>-->
+
         <td>
             <button type="button"  id="searchBtn" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    th:if="${userInfo.contains('ROLE_ADMIN')}"
                     th:attr="onclick=|getInfoToDelete('${blog.id}','${blog.blogName}')|">
                 DELETE
             </button>
@@ -102,7 +116,7 @@
 
 
             Do you want to delete?
-            <form action="/blog/delete" method="post">
+            <form action="/blog/delete" method="get">
                 <div class="mb-3">
                     <label>ID</label>
                     <input type="text" name="idDelete" id="idDelete" readonly>
