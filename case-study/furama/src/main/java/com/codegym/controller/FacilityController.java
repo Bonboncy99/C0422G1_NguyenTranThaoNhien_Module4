@@ -1,5 +1,6 @@
 package com.codegym.controller;
 
+
 import com.codegym.model.facility.Facility;
 import com.codegym.service.facility.IFacilityService;
 import com.codegym.service.facility.IFacilityTypeService;
@@ -76,5 +77,6 @@ public class FacilityController {
         model.addAttribute("size", pageable.getPageSize());
         return "facility/list";
     }
+
 
 }

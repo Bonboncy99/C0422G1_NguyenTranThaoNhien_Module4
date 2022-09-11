@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List Contract</title>
+    <th:block th:replace="~{common/common::css}"></th:block>
+    <script src="../../static/js/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+<!--navbar-->
+<div th:replace="~{common/common::navbar}"></div>
+<div style="height: 150px;"></div>
+<div class="container mt-5 mb-5">
+    <table id="listContract" class="table table-hover table-bordered">
+        <thead class="bg-danger text-white fw-bold text-center">
+        <tr>
+            <th>#</th>
+            <th>Dịch vụ</th>
+            <th>Khách hàng</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Tiền Đặt cọc</th>
+            <th>Tổng Tiền</th>
+            <th>Dịch vụ đi kèm</th>
+        </tr>
+        </thead>
+        <tbody id="contract-body">
+        <tr th:each="contract,status:${contractPageList}">
+            <td th:text="${status.count}"></td>
+            <td th:text="${contract.getId()}"></td>
+            <td th:text="${contract.getFacilityName()}"></td>
+            <td th:text="${contract.getCustomerName()}"></td>
+            <td th:text="${contract.getStartDate()}"></td>
+            <td th:text="${contract.getEndDate()}"></td>
+            <td th:text="${contract.getDeposit()}"></td>
+            <td th:text="${contract.getTotal()}"></td>
+            <td>
+                <div class="d-flex justify-content-around">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContract">
+                        +
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listService">
+                        Danh sách các dịch vụ đi kèm
+                    </button>
+<!--                    <button th:attr="onclick=|showAF('${contract.getId()}')|" th:value=""> Xem</button>-->
+                </div>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--phân trang-->
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" th:href="@{contract(page=0)}">First</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{contract(page=${contractPageList.number - 1})}"
+                                 th:if="${contractPageList.hasPrevious()}">Previous</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{contract(page=${contractPageList.number + 1})}"
+                                 th:if="${contractPageList.hasNext()}">Next</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{contract(page=${contractPageList.totalPages - 1})}">Last</a></li>
+    </ul>
+</nav>
+<!--modal add contract-->
+<div class="modal" id="addContract">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header bg-success text-center text-white fw-bold">
+                <h4 class="modal-title">ADD CONTRACT</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="/action_page.php">
+                        <div class="mb-3 mt-3">
+                            <label for="startDate" class="form-label">Chọn ngày bắt đầu:</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate">
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="endDate" class="form-label">Chọn ngày kết thúc:</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="moneySend" class="form-label">Nhập Tiền gửi:</label>
+                            <input type="text" class="form-control" id="moneySend" placeholder="Nhập Tiền gửi" name="moneySend">
+                        </div>
+                        <div class="mb-3">
+                            <label for="totalMoney" class="form-label">Tổng tiền</label>
+                            <input type="number" class="form-control bg-secondary" readonly id="totalMoney" name="totalMoney">
+                        </div>
+
+                        <div>
+                            <label for="totalMoney" class="form-label">Khách hàng thuê dịch vụ</label>
+                            <select name="customer" id="customer" class="form-control">
+                                <option value="">Chọn khách hàng</option>
+                                <option value="">Option1</option>
+                                <option value="">Option2</option>
+                                <option value="">Option3</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="service" class="form-label">Dịch vụ</label>
+                            <select name="service" id="service" class="form-control">
+                                <option value="">Chọn dịch vụ</option>
+                                <option value="">Option1</option>
+                                <option value="">Option2</option>
+                                <option value="">Option3</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label  class="form-label">Dịch vụ đính kèm</label>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listService">
+                                +
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">ADD</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+<!--modal display list service-->
+<div class="modal" id="listService">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header bg-info">
+                <h4 class="modal-title text-center text-white">List Service</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p>List Service</p>
+                <table class="table table-bordered table-hover">
+                    <thead class="bg-danger text-white text-center fw-bold">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Unit</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="AFBody">
+                    </tbody>
+
+                </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Footer-->
+<footer th:replace="~{common/common::footer}"></footer>
+<script th:replace="~{common/common::js}"></script>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "GET",
+        url: "localhost:8080/attachFacility?id=" +id,
+        success: function (contractPages) {
+            console.log(contractPages);
+            let contractList = contractPages.content;
+            let str = "";
+            for (let i = 0; i < contractList; i++) {
+                str+= `<tr>
+                    <td>${i+1}</td>
+                    <td>${contractList[i].getFacilityName()}</td>
+                    <td>${contractList[i].getCustomerName()()}</td>
+                    <td>${contractList[i].getStartDate()}</td>
+                    <td>${contractList[i].getEndDate()}</td>
+                    <td>${contractList[i].getDeposit()}</td>
+                    <td>${contractList[i].getTotal()}</td>
+                    <td>dsfds</td>
+                    <td>fsfs</td>
+                    </tr>`
+            }
+        },
+
+        error: function (resultError) {
+            alert('error');
+        }
+    });
+
+    // function showAF(id){
+    //     $.ajax({
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         type: "GET",
+    //         url: "localhost:8080/attachFacility?id=" +id,
+    //         success: function (attachFacilityList) {
+    //             console.log(attachFacilityList);
+    //             //
+    //         },
+    //         error: function (resultError) {
+    //             alert('error');
+    //         }
+    //     });
+    // }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List Facility</title>
+    <th:block th:replace="~{common/common::css}"></th:block>
+</head>
+<body>
+<!--navbar-->
+<div th:replace="~{common/common::navbar}"></div>
+<h1>List Facility</h1>
+
+<h1 class="bg-success text-center text-white p-3" style="margin-top: 150px">Danh sách dịch vụ</h1>
+
+<div class="container">
+    <a class="btn btn-success mt-3 mb-3" href="/facility/add">Thêm mới dịch vụ</a>
+    <form class="d-flex mb-3 mt3" action="/facility/search" method="get">
+        <input class="form-control me-2" name="searchName" placeholder="Search Facility" aria-label="Search">
+        <Select name="facilityTypeName" class="form-control border-success">
+            <option value="">Select Facility Type</option>
+            <option th:each="facilityType:${facilityTypeList}" th:value="${facilityType.facilityTypeName}"
+                    th:text="${facilityType.facilityTypeName}"></option>
+        </Select>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    <!--    Table-->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-light table-striped table-responsive">
+            <thead class="table-success text-center">
+            <tr>
+                <th>STT</th>
+                <th>Tên dịch vụ</th>
+                <th>Diện tích</th>
+                <th>Chi phí thuê</th>
+                <th>Số người tối đa</th>
+                <th>Kiểu thuê</th>
+                <th>Loại dịch vụ</th>
+                <th>Tiêu chuẩn phòng</th>
+                <th>Mô tả tiện nghi khác</th>
+                <th>Diện tích hồ bơi</th>
+                <th>Số tầng</th>
+                <th>Dịch vụ miễn phí đi kèm</th>
+                <th>Detail</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="facility,status:${facilityList}">
+                <td th:text="${status.count + facilityList.number*size}"></td>
+                <td th:text="${facility.facilityName}"></td>
+                <td th:text="${facility.area}"></td>
+                <td th:text="${facility.cost}"></td>
+                <td th:text="${facility.maxPeople}"></td>
+                <td th:text="${facility.rentType.rentTypeName}"></td>
+                <td th:text="${facility.facilityType.facilityTypeName}"></td>
+                <td th:text="${facility.standardRoom}"></td>
+                <td th:text="${facility.descriptionOtherConvenience}"></td>
+                <td th:text="${facility.poolArea}"></td>
+                <td th:text="${facility.numberOfFloor}"></td>
+                <td th:text="${facility.facilityFree}"></td>
+                <td>chi tieets</td>
+                <td><a class="btn btn-outline-warning" th:href="@{/facility/update(idUpdate=${facility.facilityId})}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd"
+                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                </a></td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            th:attr="onclick=|getInfoToDelete('${facility.facilityId}','${facility.facilityName}')|">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-trash-fill" viewBox="0 0 16 16">
+                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" th:href="@{/facility(page=0,searchName = ${searchName}, facilityTypeName=${facilityTypeName})}">First</a></li>
+            <li class="page-item"><a class="page-link"
+                                     th:href="@{/facility(page=${facilityList.number - 1},searchName = ${searchName}, facilityTypeName=${facilityTypeName})}"
+                                     th:if="${facilityList.hasPrevious()}">Previous</a></li>
+            <li class="page-item"><a class="page-link"
+                                     th:href="@{/facility(page=${facilityList.number +1},searchName = ${searchName}, facilityTypeName=${facilityTypeName})}"
+                                     th:if="${facilityList.hasNext()}">Next</a></li>
+            <li class="page-item"><a class="page-link"
+                                     th:href="@{/facility(page=${facilityList.totalPages - 1},searchName = ${searchName}, facilityTypeName=${facilityTypeName})}">Last</a>
+            </li>
+            <li class="page-item disabled">
+                <a href="#" class="page-link">
+                    <span th:text="${facilityList.number + 1}"></span>
+                    /
+                    <span th:text="${facilityList.totalPages}"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- The View Modal -->
+<div class="modal" id="viewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">VIEW FACILITY</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-bordered table-success table-hover">
+
+                    <tr>
+                        <th>#</th>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th>Tên dịch vụ</th>
+                        <td>Villa Beach Front</td>
+                    </tr>
+                    <tr>
+                        <th>Diện tích</th>
+                        <td>25000</td>
+                    </tr>
+                    <tr>
+                        <th>Chi phí thuê</th>
+                        <td>1000000</td>
+                    </tr>
+                    <tr>
+                        <th>Số người tối đa</th>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <th>Tiêu chuẩn phòng</th>
+                        <td>vip</td>
+                    </tr>
+                    <tr>
+                        <th>Mô tả tiện nghi khác</th>
+                        <td>Có hồ bơi</td>
+                    </tr>
+                    <tr>
+                        <th>Diện tích hồ bơi</th>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <th>Số tầng</th>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <th>Dịch vụ miễn phí đi kèm</th>
+                        <td>Không</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h4 class="modal-title">Delete facility</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/facility/delete" method="post">
+                <div class="modal-body">
+                    Do you want to delete this facility?
+                    <div class="mb-3 mt-3">
+                        <label for="idDelete" class="form-label">ID:</label>
+                        <input type="text" class="form-control" id="idDelete" name="idDelete" readonly>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="nameDelete" class="form-label">Name:</label>
+                        <input type="text" class="form-control" id="nameDelete" readonly>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function getInfoToDelete(id, name) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").value = name;
+    }
+</script>
+<!--Footer-->
+<footer th:replace="~{common/common::footer}"></footer>
+<script th:replace="~{common/common::js}"></script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List Employee</title>
+    <th:block th:replace="~{common/common::css}"></th:block>
+</head>
+<body>
+<!--navbar-->
+<div th:replace="~{common/common::navbar}"></div>
+<h1>List Employee</h1>
+<div th:text="${mess}" th:if="${mess!=null}"></div>
+<h1 class="bg-danger text-center text-white p-3" style="margin-top: 150px">DANH SÁCH NHÂN VIÊN</h1>
+
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Thêm mới</button>
+<table class="table table-bordered table-hover table-light table-striped table-responsive">
+    <thead class="table-danger text-center">
+    <tr>
+        <th>#</th>
+        <th>Tên nhân viên</th>
+        <th>Ngày sinh</th>
+        <th>Số CMND</th>
+        <th>Số điện thoại</th>
+        <th>Email</th>
+        <th>Địa chỉ</th>
+        <th>Trình độ</th>
+        <th>Vị trí</th>
+        <th>Bộ phận</th>
+        <th>Lương</th>
+        <th colspan="3">Các chức năng</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee,status:${employeePage}">
+        <td th:text="${status.count}"></td>
+        <td th:text="${employee.employeeName}"></td>
+        <td th:text="${employee.dateOfBirth}"></td>
+        <td th:text="${employee.idCard}"></td>
+        <td th:text="${employee.phoneNumber}"></td>
+        <td th:text="${employee.email}"></td>
+        <td th:text="${employee.address}"></td>
+        <td th:text="${employee.educationDegree.educationDegreeName}"></td>
+        <td th:text="${employee.position.positionName}"></td>
+        <td th:text="${employee.division.divisionName}"></td>
+        <td th:text="${employee.salary}"></td>
+        <td>
+            <button type="button" id="openUpdateBtn" class="btn btn-outline-warning" data-bs-toggle="modal"
+                    data-bs-target="#updateModal" th:value="${employee.employeeId}">
+                Update
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-outline-danger"
+                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    th:attr="onclick=|getInfoToDelete('${employee.employeeId}','${employee.employeeName}')|">
+                Delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+
+<!-- The Add Modal -->
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white text-center">
+                <h4 class="modal-title">Thêm mới Nhân viên</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="/employee/add" method="post" class="bg-light text-success fw-bold" th:object="${employee}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="newName" class="form-label ">1. Nhập tên nhân viên</label>
+                        <input type="text" class="form-control" id="newName"
+                               placeholder="Nhập tên nhân viên" th:field="*{employeeName}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newBirthDay" class="form-label ">2. Nhập ngày sinh </label>
+                        <input type="date" class="form-control" id="newBirthDay"
+                               placeholder="Nhập ngày sinh" th:field="*{dateOfBirth}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newIDCard" class="form-label ">3. Nhập số CMND</label>
+                        <input type="text" class="form-control" id="newIDCard"
+                               placeholder="Nhập số CMND" th:field="*{idCard}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPhone" class="form-label ">4. Nhập số điện thoại</label>
+                        <input type="text" class="form-control" id="newPhone"
+                               placeholder="Nhập số điện thoại" th:field="*{phoneNumber}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newEmail" class="form-label ">5. Nhập email</label>
+                        <input type="text" class="form-control" id="newEmail"
+                               placeholder="Nhập email" th:field="*{email}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newAddress" class="form-label ">5. Nhập địa chỉ</label>
+                        <input type="text" class="form-control" id="newAddress"
+                               placeholder="Nhập địa chỉ" th:field="*{address}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newED" class="form-label ">6. Chọn trình độ</label>
+                        <select id="newED" class="form-control" th:field="*{educationDegree}">
+                            <option th:each="educationDegree:${educationDegreeList}"
+                                    th:value="${educationDegree.educationDegreeId}"
+                                    th:text="${educationDegree.educationDegreeName}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPosition" class="form-label ">7. Chọn vị trí</label>
+                        <select id="newPosition" class="form-control" th:field="*{position}">
+                            <option th:each="position:${positionList}"
+                                    th:value="${position.positionId}"
+                                    th:text="${position.positionName}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">.
+                        <label for="newDivision" class="form-label ">8. Chọn bộ phận</label>
+                        <select id="newDivision" class="form-control" th:field="*{division}">
+                            <option th:each="division:${divisionList}"
+                                    th:value="${division.divisionId}"
+                                    th:text="${division.divisionName}">
+                            </option>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newSalary" class="form-label ">9.Nhập lương</label>
+                        <input type="text" class="form-control" id="newSalary"
+                               placeholder="Nhập lương" th:field="*{salary}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="addBtn" class="btn btn-outline-success">Thêm mới</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- The View Modal -->
+<div class="modal" id="viewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">VIEW SERVICE</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-bordered table-success table-hover">
+
+                    <tr>
+                        <th>#</th>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th>Tên dịch vụ</th>
+                        <td>Villa Beach Front</td>
+                    </tr>
+                    <tr>
+                        <th>Diện tích</th>
+                        <td>25000</td>
+                    </tr>
+                    <tr>
+                        <th>Chi phí thuê</th>
+                        <td>1000000</td>
+                    </tr>
+                    <tr>
+                        <th>Số người tối đa</th>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <th>Tiêu chuẩn phòng</th>
+                        <td>vip</td>
+                    </tr>
+                    <tr>
+                        <th>Mô tả tiện nghi khác</th>
+                        <td>Có hồ bơi</td>
+                    </tr>
+                    <tr>
+                        <th>Diện tích hồ bơi</th>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <th>Số tầng</th>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <th>Dịch vụ miễn phí đi kèm</th>
+                        <td>Không</td>
+                    </tr>
+                </table>
+
+                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                        data-bs-target="#updateModal">
+                    Update
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal">
+                    Delete
+                </button>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--The Update Modal-->
+<div class="modal" id="updateModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning text-white text-center">
+                <h4 class="modal-title">Cập nhật Nhân viên</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="/employee/update" class="bg-light text-warning fw-bold p-5">
+                <input type="text" id="idUpdate">
+                <div class="mb-3">
+                    <label for="updateName" class="form-label ">1. Nhập tên nhân viên</label>
+                    <input type="text" class="form-control" id="updateName"
+                           placeholder="Nhập tên nhân viên">
+                </div>
+                <div class="mb-3">
+                    <label for="updateBirthDay" class="form-label ">2. Nhập ngày sinh </label>
+                    <input type="date" class="form-control" id="updateBirthDay"
+                           placeholder="Nhập ngày sinh">
+                </div>
+                <div class="mb-3">
+                    <label for="updateIDCard" class="form-label ">3. Nhập số CMND</label>
+                    <input type="text" class="form-control" id="updateIDCard"
+                           placeholder="Nhập số CMND">
+                </div>
+                <div class="mb-3">
+                    <label for="updatePhone" class="form-label ">4. Nhập số điện thoại</label>
+                    <input type="text" class="form-control" id="updatePhone"
+                           placeholder="Nhập số điện thoại">
+                </div>
+                <div class="mb-3">
+                    <label for="updateEmail" class="form-label ">5. Nhập email</label>
+                    <input type="text" class="form-control" id="updateEmail"
+                           placeholder="Nhập email">
+                </div>
+                <div class="mb-3">
+                    <label for="updateAddress" class="form-label ">5. Nhập địa chỉ</label>
+                    <input type="text" class="form-control" id="updateAddress"
+                           placeholder="Nhập địa chỉ">
+                </div>
+                <div class="mb-3">
+                    <label for="updateED" class="form-label ">6. Chọn trình độ</label>
+                    <select id="updateED" class="form-control">
+                        <option th:each="educationDegree:${educationDegreeList}"
+                                th:value="${educationDegree.educationDegreeId}"
+                                th:text="${educationDegree.educationDegreeName}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="updatePosition" class="form-label ">7. Chọn vị trí</label>
+                    <select id="updatePosition" class="form-control">
+                        <option th:each="position:${positionList}"
+                                th:value="${position.positionId}"
+                                th:text="${position.positionName}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">.
+                    <label for="updateDivision" class="form-label ">8. Chọn bộ phận</label>
+                    <select id="updateDivision" class="form-control">
+                        <option th:each="division:${divisionList}"
+                                th:value="${division.divisionId}"
+                                th:text="${division.divisionName}">
+                        </option>
+
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="updateSalary" class="form-label ">9.Nhập lương</label>
+                    <input type="text" class="form-control" id="updateSalary"
+                           placeholder="Nhập lương">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="updateBtn" class="btn btn-outline-warning">Cập nhật</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- The Delete Modal ok-->
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">DELETE SERVICE</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/employee/delete" method="get">
+                <div class="modal-body">
+                    <p>Bạn muốn xóa nhân viên</span>? </p>
+                    <input type="text" hidden readonly name="idDelete" id="idDelete">
+                    <input type="text" readonly id="nameDelete">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Footer-->
+<footer th:replace="~{common/common::footer}"></footer>
+<script th:replace="~{common/common::js}"></script>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+
+    function getInfoToDelete(id, name) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").value = name;
+    }
+
+    // Get info to UpdateForm
+    $('#openUpdateBtn').click(function () {
+        let idUpdate = $('#openUpdateBtn').val();
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "http://localhost:8080/employeeRest/showUpdate?idUpdate=" + idUpdate,
+            success: function (employeeUpdate) {
+                console.log(employeeUpdate);
+                $('#idUpdate').val(employeeUpdate.employeeId);
+                $('#updateName').val(employeeUpdate.employeeName);
+                $('#updateBirthDay').val(employeeUpdate.dateOfBirth);
+                $('#updateIDCard').val(employeeUpdate.idCard);
+                $('#updatePhone').val(employeeUpdate.phoneNumber);
+                $('#updateEmail').val(employeeUpdate.email);
+                $('#updateAddress').val(employeeUpdate.address);
+                $('#updateED').val(employeeUpdate.educationDegree.educationDegreeId);
+                $('#updatePosition').val(employeeUpdate.position.positionId);
+                $('#updateDivision').val(employeeUpdate.division.divisionId);
+                $('#updateSalary').val(employeeUpdate.salary);
+            },
+            error: function (resultError) {
+                alert('error');
+            }
+        });
+    })
+    //Update form
+    // $('#updateBtn').click(function () {
+    //     let idUpdate = $('#idUpdate').val();
+    //     let updateName = $('#updateName').val();
+    //     let updateBirthDay = $('#updateBirthDay').val();
+    //     let updateIDCard = $('#updateIDCard').val();
+    //     let updatePhone = $('#updatePhone').val();
+    //     let updateEmail = $('#updateEmail').val();
+    //     let updateAddress = $('#updateAddress').val();
+    //     let updateED = $('#updateED').val();
+    //     let updatePosition = $('#updatePosition').val();
+    //     let updateDivision = $('#updateDivision').val();
+    //     let updateSalary = $('#updateSalary').val();
+    //     let updateEmployee = {
+    //         employeeId: idUpdate,
+    //         employeeName: updateName,
+    //         dateOfBirth: updateBirthDay,
+    //         idCard: updateIDCard,
+    //         salary: updateSalary,
+    //         phoneNumber: updatePhone,
+    //         email: updateEmail,
+    //         address: updateAddress,
+    //         position{
+    //             positionId: updatePosition,
+    //         },
+    //         educationDegree{
+    //             educationDegreeId: updateED,
+    //         },
+    //         division{
+    //             divisionId: updateDivision,
+    //         }
+    //     }
+    //     $.ajax({
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         type: "PATCH",
+    //         url: "http://localhost:8080/employeeRest/update",
+    //         data: JSON.stringify(updateEmployee),
+    //         success: function (employeeUpdate) {
+    //
+    //         },
+    //         error: function (resultError) {
+    //             alert('error');
+    //         }
+    //     });
+    // })
+</script>
+</body>
+</html>

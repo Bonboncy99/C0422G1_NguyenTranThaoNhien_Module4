@@ -1,6 +1,8 @@
 package com.codegym.controller;
 
 import com.codegym.model.customer.Customer;
+
+
 import com.codegym.service.customer.ICustomerService;
 import com.codegym.service.customer.ICustomerTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,21 +68,21 @@ public class CustomerController {
         return "redirect:/customer";
     }
 
-    @GetMapping(value = {"","/search"})
+    @GetMapping(value = {"", "/search"})
     public String search(Model model,
                          @RequestParam(required = false, defaultValue = "") String nameSearch,
                          @RequestParam(required = false, defaultValue = "") String customerTypeName,
                          @RequestParam(required = false, defaultValue = "") String phoneSearch,
                          @RequestParam(required = false, defaultValue = "") String emailSearch,
-                         @PageableDefault(size = 3,sort = "customerId",direction = Sort.Direction.ASC) Pageable pageable) {
-        model.addAttribute("customerList",this.iCustomerService.findAllByCustomerNameContainsAndCustomerType_CustomerTypeNameContainsAndPhoneNumberContainsAndEmailContains
-                (nameSearch,customerTypeName,phoneSearch,emailSearch,pageable));
-        model.addAttribute("nameSearch",nameSearch);
-        model.addAttribute("customerTypeName",customerTypeName);
-        model.addAttribute("phoneSearch",phoneSearch);
-        model.addAttribute("emailSearch",emailSearch);
+                         @PageableDefault(size = 3, sort = "customerId", direction = Sort.Direction.ASC) Pageable pageable) {
+        model.addAttribute("customerList", this.iCustomerService.findAllByCustomerNameContainsAndCustomerType_CustomerTypeNameContainsAndPhoneNumberContainsAndEmailContains
+                (nameSearch, customerTypeName, phoneSearch, emailSearch, pageable));
+        model.addAttribute("nameSearch", nameSearch);
+        model.addAttribute("customerTypeName", customerTypeName);
+        model.addAttribute("phoneSearch", phoneSearch);
+        model.addAttribute("emailSearch", emailSearch);
         model.addAttribute("customerTypeList", this.iCustomerTypeService.findAll());
-        model.addAttribute("size",pageable.getPageSize());
+        model.addAttribute("size", pageable.getPageSize());
         return "customer/list";
     }
 

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Contract</title>
+    <th:block th:replace="~{common/common::css}"></th:block>
+</head>
+<body>
+<!--navbar-->
+<div th:replace="~{common/common::navbar}"></div>
+
+<h1 class="p-3 text-center text-white bg-primary">ADD CONTRACT</h1>
+<!--form add-->
+<div class="d-flex justify-content-center m-5">
+    <form class="w-75 text-primary fw-bold shadow-lg p-5 bg-light" action="/Customer?action=addCustomer" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3 mt-3">
+                    <p>Select customer type</p>
+                    <select name="" id="">
+                        <option value="">Select1</option>
+                        <option value="">Select2</option>
+                        <option value="">Select3</option>
+                        <option value="">Select4</option>
+                        <option value="">Select5</option>
+                    </select>
+                </div>
+
+                <!--                Tên khách hàng-->
+                <div class="mb-3 mt-3">
+                    <label for="name" class="form-label">Enter name</label>
+                    <input type="text" class="form-control" id="name"
+                           placeholder="Enter customer name" name="name">
+                </div>
+
+                <!--                Ngày sinh-->
+                <div class="mb-3 mt-3">
+                    <label for="birthday" class="form-label">Select birthday</label>
+                    <input type="date" class="form-control" name="dayOfBirth" id="birthday">
+                </div>
+
+                <!--                giới tính-->
+                <div class="mb-3 mt-3">
+                    <p>Select gender</p>
+                    <select class=" form-control" name="gender" id="gender">
+                        <option value="true">Male</option>
+                        <option value="false">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <!--số cmnd-->
+                <div class="mb-3 mt-3">
+                    <label for="idCard" class="form-label">Enter Customer Id Card</label>
+                    <input type="text" class="form-control" placeholder="Enter customer Id Card"
+                           id="idCard" name="idCard">
+                </div>
+
+
+                <!--số điện thoại-->
+                <div class="mb-3 mt-3">
+                    <label for="phone" class="form-label">Enter customer phone</label>
+                    <input type="text" class="form-control" placeholder="Enter customer phone" id="phone" name="phone">
+                </div>
+
+
+                <!--                email-->
+                <div class="mb-3 mt-3">
+                    <label for="email" class="form-label">Enter customer email</label>
+                    <input type="text   " class="form-control" placeholder="Enter customer email" id="email"
+                           name="email">
+                </div>
+
+
+                <!--địa chỉ-->
+                <div class="mb-3 mt-3">
+                    <label for="address" class="form-label">Enter customer adress</label>
+                    <input type="text" class="form-control" placeholder="Enter customer adress" id="address"
+                           name="address">
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary">ADD</button>
+            <a class="btn btn-success" href="/Customer">RETURN</a>
+        </div>
+
+    </form>
+</div>
+</div>
+
+<!--<%&#45;&#45;&lt;!&ndash; Button to Open the Modal &ndash;&gt;&#45;&#45;%>-->
+<!--<%&#45;&#45;<button type="button" class="btn btn-primary" data-bs-toggle="modal" id="messBtn" data-bs-target="#messModal ">&#45;&#45;%>-->
+<!--    <%&#45;&#45;    Open modal&#45;&#45;%>-->
+<!--    <%&#45;&#45;</button>&#45;&#45;%>-->
+
+<!--<%&#45;&#45;&lt;!&ndash; The Modal &ndash;&gt;&#45;&#45;%>-->
+<!--<%&#45;&#45;<div class="modal" id="messModal">&#45;&#45;%>-->
+<!--    <%&#45;&#45;    <div class="modal-dialog">&#45;&#45;%>-->
+<!--        <%&#45;&#45;        <div class="modal-content">&#45;&#45;%>-->
+
+<!--            <%&#45;&#45;            &lt;!&ndash; Modal Header &ndash;&gt;&#45;&#45;%>-->
+<!--            <%&#45;&#45;            <div class="modal-header">&#45;&#45;%>-->
+<!--                <%&#45;&#45;                <h4 class="modal-title">Modal Heading</h4>&#45;&#45;%>-->
+<!--                <%&#45;&#45;                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>&#45;&#45;%>-->
+<!--                <%&#45;&#45;            </div>&#45;&#45;%>-->
+
+<!--            <%&#45;&#45;            &lt;!&ndash; Modal body &ndash;&gt;&#45;&#45;%>-->
+<!--            <%&#45;&#45;            <div class="modal-body">&#45;&#45;%>-->
+<!--                <%&#45;&#45;                <div class="d-flex justify-content-center m-5">&#45;&#45;%>-->
+<!--                    <%&#45;&#45;                    <c:if test="${check==true}">&#45;&#45;%>-->
+<!--                        <%&#45;&#45;                        <p class="w-50 bg-success p-1 text-center text-white">SUCCESS!</p>&#45;&#45;%>-->
+<!--                        <%&#45;&#45;                    </c:if>&#45;&#45;%>-->
+<!--                    <%&#45;&#45;                    <c:if test="${check==false}">&#45;&#45;%>-->
+<!--                        <%&#45;&#45;                        <p class="w-50 bg-danger p-1 text-center text-white">FAIL!</p>&#45;&#45;%>-->
+<!--                        <%&#45;&#45;                    </c:if>&#45;&#45;%>-->
+<!--                    <%&#45;&#45;                </div>&#45;&#45;%>-->
+<!--                <%&#45;&#45;            </div>&#45;&#45;%>-->
+
+<!--            <%&#45;&#45;            &lt;!&ndash; Modal footer &ndash;&gt;&#45;&#45;%>-->
+<!--            <%&#45;&#45;            <div class="modal-footer">&#45;&#45;%>-->
+<!--                <%&#45;&#45;                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>&#45;&#45;%>-->
+<!--                <%&#45;&#45;            </div>&#45;&#45;%>-->
+
+<!--            <%&#45;&#45;        </div>&#45;&#45;%>-->
+<!--        <%&#45;&#45;    </div>&#45;&#45;%>-->
+<!--    <%&#45;&#45;</div>&#45;&#45;%>-->
+
+
+<%--
+<script>-- % >
+< % --document.getElementById("messBtn").onclick();
+-- % >
+< % --</script>
+--%>
+<script src="bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+<!--Footer-->
+<footer th:replace="~{common/common::footer}"></footer>
+<script th:replace="~{common/common::js}"></script>
+</body>
+</html>
