@@ -72,6 +72,7 @@ public class CustomerController {
         BeanUtils.copyProperties(customer, customerDto);
         model.addAttribute("customerDto", customer);
         model.addAttribute("customerTypeList", this.iCustomerTypeService.findAll());
+
         return "customer/update";
     }
 

@@ -9,5 +9,5 @@ import java.util.List;
 public interface IAttachFacilityService {
     List<AttachFacility>findAll();
     List<AttachFacility>showAttatchFacility(@Param("contract_id") int id);
-
+    Double total(A)
 }

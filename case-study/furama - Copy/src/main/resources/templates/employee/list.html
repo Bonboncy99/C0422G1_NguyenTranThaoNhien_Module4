@@ -11,6 +11,7 @@
 <h1>List Employee</h1>
 <div th:text="${mess}" th:if="${mess!=null}" id="mess"></div>
 <h1 class="bg-danger text-center text-white p-3" style="margin-top: 150px">DANH SÁCH NHÂN VIÊN</h1>
+<a href="/employee" id="reloadBtn"></a>
 
 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Thêm mới</button>
 <table class="table table-bordered table-hover table-light table-striped table-responsive">
@@ -414,6 +415,7 @@
             data: JSON.stringify(updateEmployeeDto),
             success: function (mess) {
                 $('#mess').html(mess);
+                // ${'#reloadBtn'}.();
             },
             error: function (resultError) {
                 alert('error');
