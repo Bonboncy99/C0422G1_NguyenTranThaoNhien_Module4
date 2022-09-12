@@ -23,7 +23,8 @@ public class EducationDegree {
     private Integer educationDegreeId;
     @Column(name = "education_degree_name")
     private String educationDegreeName;
-    @OneToMany(mappedBy = "educationDegree")
+
     @JsonBackReference
+    @OneToMany(mappedBy = "educationDegree")
     private List<Employee> employeeList;
 }

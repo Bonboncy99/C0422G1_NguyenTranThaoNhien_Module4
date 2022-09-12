@@ -15,4 +15,9 @@ public class DivisionService implements IDivisionService {
     public List<Division> findAll() {
         return this.iDivisionRepository.findAll();
     }
+
+    @Override
+    public Division findById(int id) {
+        return this.iDivisionRepository.findById(id).orElse(null);
+    }
 }

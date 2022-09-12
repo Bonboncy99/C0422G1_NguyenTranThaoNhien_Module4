@@ -15,4 +15,9 @@ public class PositionService implements IPositionService {
     public List<Position> findAll() {
         return this.iPositionRepository.findAll();
     }
+
+    @Override
+    public Position findById(int id) {
+        return this.iPositionRepository.findById(id).orElse(null);
+    }
 }

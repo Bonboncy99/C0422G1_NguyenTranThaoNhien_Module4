@@ -23,7 +23,8 @@ public class Division {
     private Integer divisionId;
     @Column(name = "division_name")
     private String divisionName;
-    @OneToMany(mappedBy = "division")
+
     @JsonBackReference
+    @OneToMany(mappedBy = "division")
     private List<Employee> employeeList;
 }

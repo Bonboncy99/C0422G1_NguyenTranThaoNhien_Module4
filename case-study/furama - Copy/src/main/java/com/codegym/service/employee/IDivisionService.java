@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IDivisionService {
     List<Division> findAll();
+    Division findById(int id);
 }

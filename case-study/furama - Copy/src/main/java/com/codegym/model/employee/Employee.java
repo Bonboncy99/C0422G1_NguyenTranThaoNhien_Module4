@@ -1,6 +1,7 @@
 package com.codegym.model.employee;
 
 import com.codegym.model.contract.Contract;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,7 @@ public class Employee {
     @JoinColumn(name = "division_id", referencedColumnName = "division_id")
     private Division division;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "employee")
     private List<Contract> contractList;
 }

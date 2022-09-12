@@ -22,7 +22,8 @@ public class Position {
     private Integer positionId;
     @Column(name = "position_name")
     private String positionName;
-    @OneToMany(mappedBy = "position")
+
     @JsonBackReference
+    @OneToMany(mappedBy = "position")
     private List<Employee> employeeList;
 }

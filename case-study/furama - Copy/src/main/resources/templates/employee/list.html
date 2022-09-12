@@ -9,7 +9,7 @@
 <!--navbar-->
 <div th:replace="~{common/common::navbar}"></div>
 <h1>List Employee</h1>
-<div th:text="${mess}" th:if="${mess!=null}"></div>
+<div th:text="${mess}" th:if="${mess!=null}" id="mess"></div>
 <h1 class="bg-danger text-center text-white p-3" style="margin-top: 150px">DANH SÁCH NHÂN VIÊN</h1>
 
 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Thêm mới</button>
@@ -44,8 +44,9 @@
         <td th:text="${employee.division.divisionName}"></td>
         <td th:text="${employee.salary}"></td>
         <td>
-            <button type="button" id="openUpdateBtn" class="btn btn-outline-warning" data-bs-toggle="modal"
-                    data-bs-target="#updateModal" th:value="${employee.employeeId}">
+            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                    data-bs-target="#updateModal"
+                    th:attr="onclick=|showUpdateForm('${employee.employeeId}')|">
                 Update
             </button>
         </td>
@@ -231,8 +232,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="/employee/update" class="bg-light text-warning fw-bold p-5">
-                <input type="text" id="idUpdate">
+<!--            <form action="/employee/update" class="bg-light text-warning fw-bold p-5">-->
+            <form  class="bg-light text-warning fw-bold p-5">
+                <input type="hidden" id="idUpdate">
                 <div class="mb-3">
                     <label for="updateName" class="form-label ">1. Nhập tên nhân viên</label>
                     <input type="text" class="form-control" id="updateName"
@@ -344,17 +346,16 @@
     }
 
     // Get info to UpdateForm
-    $('#openUpdateBtn').click(function () {
-        let idUpdate = $('#openUpdateBtn').val();
+    function showUpdateForm(id) {
         $.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             type: "GET",
-            url: "http://localhost:8080/employeeRest/showUpdate?idUpdate=" + idUpdate,
+            url: "http://localhost:8080/employeeRest/showUpdate?idUpdate=" + id,
             success: function (employeeUpdate) {
-                console.log(employeeUpdate);
+
                 $('#idUpdate').val(employeeUpdate.employeeId);
                 $('#updateName').val(employeeUpdate.employeeName);
                 $('#updateBirthDay').val(employeeUpdate.dateOfBirth);
@@ -371,55 +372,54 @@
                 alert('error');
             }
         });
+    }
+
+    // Update Employee
+    $('#updateBtn').click(function () {
+        let idUpdate = $('#idUpdate').val();
+        let updateName = $('#updateName').val();
+        let updateBirthDay = $('#updateBirthDay').val();
+        let updateIDCard = $('#updateIDCard').val();
+        let updatePhone = $('#updatePhone').val();
+        let updateEmail = $('#updateEmail').val();
+        let updateAddress = $('#updateAddress').val();
+        let updateED = $('#updateED').val();
+        let updatePosition = $('#updatePosition').val();
+        let updateDivision = $('#updateDivision').val();
+        let updateSalary = $('#updateSalary').val();
+        console.log(updatePosition);
+        console.log(updateDivision);
+        console.log(updateED);
+        let updateEmployeeDto = {
+            employeeId: idUpdate,
+            employeeName: updateName,
+            dateOfBirth: updateBirthDay,
+            idCard: updateIDCard,
+            salary: updateSalary,
+            phoneNumber: updatePhone,
+            email: updateEmail,
+            address: updateAddress,
+            position: updatePosition,
+            educationDegree: updateED,
+            division : updateDivision,
+        }
+        console.log(updateEmployeeDto)
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "PATCH",
+            url: "http://localhost:8080/employeeRest/update",
+            data: JSON.stringify(updateEmployeeDto),
+            success: function (mess) {
+                $('#mess').html(mess);
+            },
+            error: function (resultError) {
+                alert('error');
+            }
+        });
     })
-    //Update form
-    // $('#updateBtn').click(function () {
-    //     let idUpdate = $('#idUpdate').val();
-    //     let updateName = $('#updateName').val();
-    //     let updateBirthDay = $('#updateBirthDay').val();
-    //     let updateIDCard = $('#updateIDCard').val();
-    //     let updatePhone = $('#updatePhone').val();
-    //     let updateEmail = $('#updateEmail').val();
-    //     let updateAddress = $('#updateAddress').val();
-    //     let updateED = $('#updateED').val();
-    //     let updatePosition = $('#updatePosition').val();
-    //     let updateDivision = $('#updateDivision').val();
-    //     let updateSalary = $('#updateSalary').val();
-    //     let updateEmployee = {
-    //         employeeId: idUpdate,
-    //         employeeName: updateName,
-    //         dateOfBirth: updateBirthDay,
-    //         idCard: updateIDCard,
-    //         salary: updateSalary,
-    //         phoneNumber: updatePhone,
-    //         email: updateEmail,
-    //         address: updateAddress,
-    //         position{
-    //             positionId: updatePosition,
-    //         },
-    //         educationDegree{
-    //             educationDegreeId: updateED,
-    //         },
-    //         division{
-    //             divisionId: updateDivision,
-    //         }
-    //     }
-    //     $.ajax({
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         type: "PATCH",
-    //         url: "http://localhost:8080/employeeRest/update",
-    //         data: JSON.stringify(updateEmployee),
-    //         success: function (employeeUpdate) {
-    //
-    //         },
-    //         error: function (resultError) {
-    //             alert('error');
-    //         }
-    //     });
-    // })
 </script>
 </body>
 </html>

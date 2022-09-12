@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>List Contract</title>
     <th:block th:replace="~{common/common::css}"></th:block>
-    <script src="../../static/js/jquery-3.6.1.min.js"></script>
 </head>
 <body>
 <!--navbar-->
@@ -27,7 +26,6 @@
         <tbody id="contract-body">
         <tr th:each="contract,status:${contractPageList}">
             <td th:text="${status.count}"></td>
-            <td th:text="${contract.getId()}"></td>
             <td th:text="${contract.getFacilityName()}"></td>
             <td th:text="${contract.getCustomerName()}"></td>
             <td th:text="${contract.getStartDate()}"></td>
@@ -39,10 +37,10 @@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContract">
                         +
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listService">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listService"
+                            th:attr="onclick=|showAF('${contract.getId()}')|">
                         Danh sách các dịch vụ đi kèm
                     </button>
-<!--                    <button th:attr="onclick=|showAF('${contract.getId()}')|" th:value=""> Xem</button>-->
                 </div>
 
             </td>
@@ -91,11 +89,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="moneySend" class="form-label">Nhập Tiền gửi:</label>
-                            <input type="text" class="form-control" id="moneySend" placeholder="Nhập Tiền gửi" name="moneySend">
+                            <input type="text" class="form-control" id="moneySend" placeholder="Nhập Tiền gửi"
+                                   name="moneySend">
                         </div>
                         <div class="mb-3">
                             <label for="totalMoney" class="form-label">Tổng tiền</label>
-                            <input type="number" class="form-control bg-secondary" readonly id="totalMoney" name="totalMoney">
+                            <input type="number" class="form-control bg-secondary" readonly id="totalMoney"
+                                   name="totalMoney">
                         </div>
 
                         <div>
@@ -119,8 +119,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label  class="form-label">Dịch vụ đính kèm</label>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listService">
+                            <label class="form-label">Dịch vụ đính kèm</label>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#listService">
                                 +
                             </button>
                         </div>
@@ -183,54 +184,36 @@
 <script th:replace="~{common/common::js}"></script>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "GET",
-        url: "localhost:8080/attachFacility?id=" +id,
-        success: function (contractPages) {
-            console.log(contractPages);
-            let contractList = contractPages.content;
-            let str = "";
-            for (let i = 0; i < contractList; i++) {
-                str+= `<tr>
-                    <td>${i+1}</td>
-                    <td>${contractList[i].getFacilityName()}</td>
-                    <td>${contractList[i].getCustomerName()()}</td>
-                    <td>${contractList[i].getStartDate()}</td>
-                    <td>${contractList[i].getEndDate()}</td>
-                    <td>${contractList[i].getDeposit()}</td>
-                    <td>${contractList[i].getTotal()}</td>
-                    <td>dsfds</td>
-                    <td>fsfs</td>
-                    </tr>`
+    function showAF(id) {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+
+            url: "http://localhost:8080/attachRest?id=" + id,
+            success: function (attachFacilityList) {
+                console.log(attachFacilityList);
+                let htmlStr = "";
+                if (attachFacilityList != null) {
+                    for (let i = 0; i < attachFacilityList.length; i++) {
+                        htmlStr += `<tr>
+                            <td>${i + 1}</td>
+                            <td>${attachFacilityList[i].attach_facility_name}</td>
+                            <td>${attachFacilityList[i].price}</td>
+                            <td>${attachFacilityList[i].unit}</td>
+                            <td>${attachFacilityList[i].status}</td>
+                            </tr> `
+                    }
+                }
+                $('#AFBody').html(htmlStr)
+            },
+            error: function (resultError) {
+                alert('error');
             }
-        },
-
-        error: function (resultError) {
-            alert('error');
-        }
-    });
-
-    // function showAF(id){
-    //     $.ajax({
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         type: "GET",
-    //         url: "localhost:8080/attachFacility?id=" +id,
-    //         success: function (attachFacilityList) {
-    //             console.log(attachFacilityList);
-    //             //
-    //         },
-    //         error: function (resultError) {
-    //             alert('error');
-    //         }
-    //     });
-    // }
+        });
+    }
 
 </script>
 </body>
