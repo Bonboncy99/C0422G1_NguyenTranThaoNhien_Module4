@@ -2,7 +2,9 @@ package com.codegym.controller;
 
 import com.codegym.dto.contract.ContractPage;
 import com.codegym.model.contract.AttachFacility;
+import com.codegym.model.contract.ContractDetail;
 import com.codegym.service.contract.IAttachFacilityService;
+import com.codegym.service.contract.IContractDetailService;
 import com.codegym.service.contract.IContractService;
 import com.codegym.service.contract.impl.AttachFacilityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class AttachRestController {
     @Autowired
     private IAttachFacilityService iAttachFacilityService;
     @Autowired
-    private IContractService iContractService;
+    private IContractDetailService iContractDetailService;
 
 //    @GetMapping("")
 //    public ResponseEntity<Page<ContractPage>> showList(@PageableDefault(5)Pageable pageable){
@@ -31,6 +33,8 @@ public class AttachRestController {
 //        }
 //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //    }
+
+
     @GetMapping("/attachRest")
     public ResponseEntity<List<AttachFacility>> showList(@RequestParam int id){
         List<AttachFacility>attachFacilityList = this.iAttachFacilityService.showAttatchFacility(id);
@@ -39,5 +43,15 @@ public class AttachRestController {
         }
         return new ResponseEntity<>(attachFacilityList,HttpStatus.OK);
     }
-    
+
+//    @GetMapping("/attachRest")
+//    public ResponseEntity<List<ContractDetail>> showList(@RequestParam int id){
+//        List<ContractDetail>contractDetailList = this.iContractDetailService.findByContract_ContractId(id);
+////        List<AttachFacility>attachFacilityList = this.iAttachFacilityService.showAttatchFacility(id);
+//        if (contractDetailList.isEmpty()){
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(contractDetailList,HttpStatus.OK);
+//    }
+
 }

@@ -37,6 +37,8 @@ public class Contract {
     @ManyToOne
     @JoinColumn(name = "facilityId", referencedColumnName = "facility_id")
     private Facility facility;
+
     @OneToMany(mappedBy = "contract")
+    @JsonBackReference
     private List<ContractDetail> contractDetailList;
 }

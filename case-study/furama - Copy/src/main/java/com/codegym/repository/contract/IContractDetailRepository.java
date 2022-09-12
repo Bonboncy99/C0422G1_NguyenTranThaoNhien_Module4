@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IContractDetailRepository extends JpaRepository<ContractDetail,Integer> {
     List<ContractDetail> findByContract_ContractId(Integer id);
+
 }

@@ -22,4 +22,9 @@ public class AttachFacilityService implements IAttachFacilityService {
         return this.iAttachFacilityRepository.showAttatchFacility(id);
     }
 
+    @Override
+    public AttachFacility findById(int id) {
+        return this.iAttachFacilityRepository.findById(id).orElse(null);
+    }
+
 }

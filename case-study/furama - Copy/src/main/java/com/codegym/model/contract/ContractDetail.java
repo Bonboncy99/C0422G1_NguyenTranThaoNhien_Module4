@@ -29,4 +29,10 @@ public class ContractDetail {
     @JoinColumn(name = "attach_facility_id",referencedColumnName = "attach_facility_id")
     private AttachFacility attachFacility ;
     private int quantity ;
+
+    public ContractDetail(Contract contract, AttachFacility attachFacility, int quantity) {
+        this.contract = contract;
+        this.attachFacility = attachFacility;
+        this.quantity = quantity;
+    }
 }

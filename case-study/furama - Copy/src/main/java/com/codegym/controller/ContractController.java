@@ -19,9 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class ContractController {
     private IFacilityService iFacilityService;
 //    @GetMapping("")
 //    public String goToServiceList(@PageableDefault(20)Pageable pageable, Model model) {
-//        model.addAttribute("contractList",this.iContractService.findAll(pageable));
+//        model.addAttribute("contractPage",this.iContractService.findAll(pageable));
 //        model.addAttribute("contractDetailList",this.iContractDetailService.findAll());
 //        model.addAttribute("attachFacilityList",this.iAttachFacilityService.findAll());
 //        List<Contract> contracts = this.iContractService.findAll(pageable).getContent();
@@ -52,9 +51,17 @@ public class ContractController {
 //        return "contract/list";
 //    }
 
-    @GetMapping("/add")
-    public String goToServiceAdd() {
-        return "contract/add";
+//    @GetMapping("/add")
+//    public String showFormAdd(RedirectAttributes redirectAttributes) {
+//        redirectAttributes.addFlashAttribute("newContract",new Contract());
+//        return "redirect:/contract";
+//    }
+
+    @PostMapping("/add")
+    public String add(@ModelAttribute("newContract") Contract newContract, RedirectAttributes redirectAttributes) {
+        this.iContractService.add(newContract);
+        redirectAttributes.addFlashAttribute("mess","Create Contract success");
+        return "redirect:/contract";
     }
 
     @GetMapping("/update")
@@ -62,17 +69,32 @@ public class ContractController {
         return "contract/update";
     }
 
-    @GetMapping("/attachFacility")
-    public String showAttach(Model model, @RequestParam int contractId) {
-//        List<ContractDetail>contractDetailList = this.iContractDetailService.findByContract_ContractId(contractId);
-//        List<AttachFacility>attachFacilityList = this.iAttachFacilityService.findByContractDetailList(contractDetailList);
-
-
-        return "contract/detail";
+//    @GetMapping("/attachFacility")
+//    public String showAttach(Model model, @RequestParam int contractId) {
+////        List<ContractDetail>contractDetailList = this.iContractDetailService.findByContract_ContractId(contractId);
+////        List<AttachFacility>attachFacilityList = this.iAttachFacilityService.findByContractDetailList(contractDetailList);
+//
+//
+//        return "contract/detail";
+//    }
+    @GetMapping("addAF")
+    public String addAttachFacility(int idContract, int attachID, int quantity,RedirectAttributes redirectAttributes){
+        Contract contract = this.iContractService.findById(idContract);
+        AttachFacility attachFacility = this.iAttachFacilityService.findById(attachID);
+        if (contract!=null && attachFacility!=null){
+            ContractDetail contractDetail = new ContractDetail(contract,attachFacility,quantity);
+            this.iContractDetailService.Add(contractDetail);
+        }
+        redirectAttributes.addFlashAttribute("mess","Add Attach facility success");
+        return "redirect:/contract";
     }
-
     @GetMapping("")
     public String goToList(Model model, @PageableDefault(5) Pageable pageable) {
+        model.addAttribute("attachList",this.iAttachFacilityService.findAll());
+        model.addAttribute("customerList", this.iCustomerService.findAll());
+        model.addAttribute("employeeList", this.iEmployeeService.findAll());
+        model.addAttribute("facilityList", this.iFacilityService.findAll());
+        model.addAttribute("newContract", new Contract());
         model.addAttribute("contractPageList", this.iContractService.showListContract(pageable));
         Page<ContractPage> contractPageList = this.iContractService.showListContract(pageable);
         return "contract/list";

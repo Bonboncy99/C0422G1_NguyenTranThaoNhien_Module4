@@ -17,7 +17,8 @@ public interface IAttachFacilityRepository extends JpaRepository<AttachFacility,
     @Query(value = "select af.*\n" +
             "from attach_facility af\n" +
             "left join contract_detail ctdt on ctdt.attach_facility_id= af.attach_facility_id\n" +
-            "left join contract ct on ct.contract_id = ctdt.contract_id\n" +
-            "where ct.contract_id = :contract_id",nativeQuery = true)
+            "where ctdt.contract_id = :contract_id",nativeQuery = true)
     List<AttachFacility>showAttatchFacility(@Param("contract_id") int id);
+
+
 }

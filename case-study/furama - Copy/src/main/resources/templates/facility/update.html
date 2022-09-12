@@ -26,24 +26,24 @@
                 <div class="mb-3">
                     <label for="tenDv" class="form-label ">1. Nhập Tên dịch vụ</label>
                     <input type="text" class="form-control" id="tenDv" th:field="*{facilityName}"
-                           placeholder="Nhập Tên dịch vụ" required>
+                           placeholder="Nhập Tên dịch vụ" >
                     <span class="text-danger" th:errors="*{facilityName}"></span>
                 </div>
                 <div class="mb-3">
                     <label for="dienTich" class="form-label ">2. Nhập Diện tích sử dụng</label>
-                    <input type="number" class="form-control" id="dienTich" th:field="*{area}"
+                    <input type="text" class="form-control" id="dienTich" th:field="*{area}"
                            placeholder="Nhập Diện tích">
                     <span class="text-danger" th:errors="*{area}"></span>
                 </div>
                 <div class="mb-3">
                     <label for="chiPhiThue" class="form-label ">3. Nhập chi phí thuê</label>
-                    <input type="number" class="form-control" id="chiPhiThue" th:field="*{cost}"
+                    <input type="text" class="form-control" id="chiPhiThue" th:field="*{cost}"
                            placeholder="Nhập chi phí thuê">
                     <span class="text-danger" th:errors="*{cost}"></span>
                 </div>
                 <div class="mb-3">
                     <label for="soNguoiToiDa" class="form-label ">4. Nhập số người tối đa</label>
-                    <input type="number" class="form-control" id="soNguoiToiDa" th:field="*{maxPeople}"
+                    <input type="text" class="form-control" id="soNguoiToiDa" th:field="*{maxPeople}"
                            placeholder="4. Nhập số người tối đa">
                     <span class="text-danger" th:errors="*{maxPeople}"></span>
                 </div>
@@ -68,13 +68,13 @@
                 </div>
                 <div class="mb-3 " style="display: none" id="divDienTichHoBoi">
                     <label for="dienTichHoBoi" class="form-label ">Nhập Diện tích hồ bơi</label>
-                    <input type="number" class="form-control" th:field="*{poolArea}"
+                    <input type="text" class="form-control" th:field="*{poolArea}"
                            placeholder="Nhập Diện tích hồ bơi" id="dienTichHoBoi">
                     <span class="text-danger" th:errors="*{poolArea}"></span>
                 </div>
                 <div class="mb-3 " style="display: none" id="divSoTang">
                     <label for="soTang" class="form-label ">Nhập Số tầng</label>
-                    <input type="number" class="form-control" th:field="*{numberOfFloor}"
+                    <input type="text" class="form-control" th:field="*{numberOfFloor}"
                            placeholder="Nhập Số tầng" id="soTang">
                     <span class="text-danger" th:errors="*{facilityFree}"></span>
                 </div>

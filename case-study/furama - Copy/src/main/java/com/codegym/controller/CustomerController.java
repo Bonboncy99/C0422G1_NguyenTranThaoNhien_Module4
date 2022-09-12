@@ -61,7 +61,7 @@ public class CustomerController {
         BeanUtils.copyProperties(customerDto, customer);
         customer.setCustomerType(customerType);
         this.iCustomerService.addCustomer(customer);
-        redirectAttributes.addFlashAttribute("messCreate", "Create success!");
+        redirectAttributes.addFlashAttribute("mess", "Create success!");
         return "redirect:/customer";
     }
 
@@ -89,7 +89,7 @@ public class CustomerController {
         CustomerType customerType = this.iCustomerTypeService.findById(customerDto.getCustomerId());
         customer.setCustomerType(customerType);
         this.iCustomerService.updateCustomer(customer);
-        redirectAttributes.addFlashAttribute("messUpdate", "Update success!");
+        redirectAttributes.addFlashAttribute("mess", "Update success!");
         return "redirect:/customer";
     }
 
@@ -97,7 +97,7 @@ public class CustomerController {
     @PostMapping("/delete")
     public String update(@RequestParam("idDelete") int idDelete, RedirectAttributes redirectAttributes) {
         this.iCustomerService.deleteCustomer(idDelete);
-        redirectAttributes.addFlashAttribute("messDelete", "Delete success!");
+        redirectAttributes.addFlashAttribute("mess", "Delete success!");
         return "redirect:/customer";
     }
 

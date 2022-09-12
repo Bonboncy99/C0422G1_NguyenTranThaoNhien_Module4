@@ -20,8 +20,7 @@ public class CustomerDto implements Validator {
     private String dateOfBirth;
     private Boolean gender;
     @NotBlank(message = "Không được để trống")
-    @Pattern(regexp = "^\\d{9,12}$", message = "Số CMND phải đúng định dạng XXXXXXXXX hoặc XXXXXXXXXXXX\n" +
-            "(X là số 0-9),9-12 số")
+    @Pattern(regexp = "^(\\d{9})|(\\d{12})$", message = "Số CMND phải đúng định dạng 9 hoặc 12 số")
     private String idCard;
     @NotBlank(message = "Không được để trống")
     @Pattern(regexp = "^(0|\\(84\\)\\+)(90|91)\\d{7}$", message = "Số điện thoại phải đúng định dạng 090xxxxxxx hoặc 091xxxxxxx hoặc\n" +
