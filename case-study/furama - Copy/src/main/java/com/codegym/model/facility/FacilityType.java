@@ -14,9 +14,11 @@ public class FacilityType {
     private Integer facilityTypeId;
     @Column(name = "facility_type_name")
     private String facilityTypeName;
-@JsonBackReference
-    @OneToMany (mappedBy = "facilityType")
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "facilityType")
     Set<Facility> facilitySet;
+
     public FacilityType() {
     }
 

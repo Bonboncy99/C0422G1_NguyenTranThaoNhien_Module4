@@ -10,7 +10,6 @@
 <div th:replace="~{common/common::navbar}"></div>
 
 <h4 class="p-3 bg-success text-white text-center">Thêm mới dịch vụ</h4>
-<p class="text-success" th:text="${messCreate}"></p>
 <div class="d-flex justify-content-center">
     <form action="/facility/addFacility" method="post" class="text-success fw-bold bg-light w-75 mt-5 mb-5 shadow-lg p-5" th:object="${facilityDto}">
         <select class="form-select-lg w-50 m-auto mt-3 border-success rounded-pill" th:field="*{facilityType}" id="addSelect"
@@ -132,6 +131,7 @@
                 divDienTichHoBoi.style.display = "none"
                 document.getElementById("dienTichHoBoi").value = 0;
                 divSoTang.style.display = "block"
+
                 divDichVuMienPhi.style.display = "none"
                 document.getElementById("add").disabled = false;
                 console.log(1)
@@ -140,9 +140,9 @@
                 divTieuChuanPhong.style.display = "none"
                 divTienNghiKhac.style.display = "none"
                 divDienTichHoBoi.style.display = "none"
-                document.getElementById("dienTichHoBoi").value = "";
+                document.getElementById("dienTichHoBoi").value = 0;
                 divSoTang.style.display = "none"
-                document.getElementById("soTang").value = "";
+                document.getElementById("soTang").value = 0;
                 divDichVuMienPhi.style.display = "block"
                 document.getElementById("add").disabled = false;
                 console.log(3)

@@ -38,17 +38,6 @@ public class EmployeeRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(value = {"/totalPage"})
-    public ResponseEntity<Integer> getTotalPage(@PageableDefault(5)Pageable pageable){
-        String name="";
-        Page<Employee>employeePage = this.iEmployeeService.findAllAndPaging(name,pageable);
-        int totalPage = employeePage.getTotalPages();
-        if (employeePage.hasContent()){
-            return new ResponseEntity<>(totalPage,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @GetMapping("/showUpdate")
     public ResponseEntity<Employee>goformUpdate(@RequestParam int idUpdate){
         Employee employeeUpdate = this.iEmployeeService.findById(idUpdate);
@@ -59,7 +48,7 @@ public class EmployeeRestController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<String> update(@RequestBody EmployeeDto employeeDto){
+    public ResponseEntity<?> update(@RequestBody EmployeeDto employeeDto){
         Employee employee =this.iEmployeeService.findById(employeeDto.getEmployeeId());
         if (employee==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -70,7 +59,7 @@ public class EmployeeRestController {
         employee.setEducationDegree(iEducationDegreeService.findById(employeeDto.getEducationDegree()));
         this.iEmployeeService.update(employee);
         String mess = "Update success";
-        return new ResponseEntity<>(mess,HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
 
 
     }

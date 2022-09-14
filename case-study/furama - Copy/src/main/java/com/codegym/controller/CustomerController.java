@@ -88,7 +88,7 @@ public class CustomerController {
         }
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDto,customer);
-        CustomerType customerType = this.iCustomerTypeService.findById(customerDto.getCustomerId());
+        CustomerType customerType = this.iCustomerTypeService.findById(customerDto.getCustomerType());
         customer.setCustomerType(customerType);
         this.iCustomerService.updateCustomer(customer);
         redirectAttributes.addFlashAttribute("mess", "Update success!");

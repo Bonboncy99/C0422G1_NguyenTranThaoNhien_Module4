@@ -52,7 +52,7 @@ public class FacilityController {
         Facility facility = new Facility();
         BeanUtils.copyProperties(facilityDto,facility);
         this.iFacilityService.add(facility);
-        redirectAttributes.addFlashAttribute("mess", "Create Success");
+        redirectAttributes.addFlashAttribute("mess","Create Success");
         redirectAttributes.addFlashAttribute("facilityTypeList", this.iFacilityTypeService.findAll());
         redirectAttributes.addFlashAttribute("rentTypeList", this.iRentTypeService.findAll());
         return "redirect:/facility";
@@ -83,16 +83,17 @@ public class FacilityController {
         Facility facility = new Facility();
         BeanUtils.copyProperties(facilityDto,facility);
         this.iFacilityService.update(facility);
-        redirectAttributes.addFlashAttribute("mess", "Update Success");
+//        redirectAttributes.addFlashAttribute("mess","Update Success");
+        redirectAttributes.addFlashAttribute("mess","Update Success");
         redirectAttributes.addFlashAttribute("facilityTypeList", this.iFacilityTypeService.findAll());
         redirectAttributes.addFlashAttribute("rentTypeList", this.iRentTypeService.findAll());
-        return "redirect:/facility  ";
+        return "redirect:/facility";
     }
 
     @PostMapping("/delete")
     public String delete(@RequestParam("idDelete") int idDelete,RedirectAttributes redirectAttributes) {
         this.iFacilityService.delete(idDelete);
-        redirectAttributes.addFlashAttribute("messs","Delete Success");
+        redirectAttributes.addFlashAttribute("mess","Delete Success");
         return "redirect:/facility";
     }
 
