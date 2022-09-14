@@ -21,6 +21,11 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
+    public Page<Employee> findAllAndPaging(String name, Pageable pageable) {
+        return this.iEmployeeRepository.findAllByEmployeeNameContaining(name,pageable);
+    }
+
+    @Override
     public List<Employee> findAll() {
         return this.iEmployeeRepository.findAll();
     }

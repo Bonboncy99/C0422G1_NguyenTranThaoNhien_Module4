@@ -8,12 +8,31 @@
 <body>
 <!--navbar-->
 <div th:replace="~{common/common::navbar}"></div>
-<h1>List Employee</h1>
-<div th:text="${mess}" th:if="${mess!=null}" id="mess"></div>
 <h1 class="bg-danger text-center text-white p-3" style="margin-top: 150px">DANH SÁCH NHÂN VIÊN</h1>
+<input type="text" th:value="${mess}" id="messInput">
 <a href="/employee" id="reloadBtn"></a>
+<button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Thêm mới</button>
 
-<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Thêm mới</button>
+<!--Form search-->
+<div class="container">
+<!--    search AJAX-->
+<!--        <div class="input-group mb-3">-->
+<!--            <input type="text" class="form-control" id="nameSearch"-->
+<!--                   placeholder="Search name">-->
+<!--            <button class="btn btn-success" id="searchBtn" type="submit">Go</button>-->
+<!--        </div>-->
+
+<!--    search thuwofng-->
+    <form action="/employee/search">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" i name="name" th:value="${name}"
+                   placeholder="Search name">
+            <button class="btn btn-success" id="searchBtn" type="submit">Go</button>
+        </div>
+    </form>
+</div>
+
+<!--table list employee-->
 <table class="table table-bordered table-hover table-light table-striped table-responsive">
     <thead class="table-danger text-center">
     <tr>
@@ -31,7 +50,7 @@
         <th colspan="3">Các chức năng</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="employeeBody">
     <tr th:each="employee,status:${employeePage}">
         <td th:text="${status.count}"></td>
         <td th:text="${employee.employeeName}"></td>
@@ -60,10 +79,42 @@
         </td>
     </tr>
     </tbody>
-
 </table>
 
+<!--<input type="text" id="totalPage">-->
+<!--Phân trang-->
+<!--Phân trang Ajax-->
+<!--<nav aria-label="Page navigation example">-->
+<!--    <ul class="pagination">-->
+<!--        <li class="page-item"><a class="page-link" id="paging0Btn">First</a></li>-->
+<!--        <li class="page-item"><a class="page-link" id="pagingPreviousBtn">Previous</a></li>-->
+<!--        <li class="page-item"><a class="page-link" id="pagingNextBtn">Next</a></li>-->
+<!--        &lt;!&ndash;        <li class="page-item"><a class="page-link" id="pagingLastBtn">Last</a></li>&ndash;&gt;-->
+<!--        <li class="page-item disabled"><a class="page-link" href="#" id="currentPage"></a></li>-->
+<!--    </ul>-->
+<!--</nav>-->
 
+
+<!--phân trang thường-->
+</nav>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" th:href="@{/employee(page=0,name=${name})}">First</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/employee(page=${employeePage.number - 1},name=${name})}"
+                                 th:if="${employeePage.hasPrevious()}">Previous</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/employee(page=${employeePage.number + 1},name=${name})}"
+                                 th:if="${employeePage.hasNext()}">Next</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/employee(page=${employeePage.totalPages - 1},name=${name})}">Last</a></li>
+        <li class="page-item disabled"><a class="page-link">
+            <span th:text="${employeePage.number +1}"></span>
+            /
+            <span th:text="${employeePage.totalPages}"></span>
+        </a></li>
+    </ul>
+</nav>
 <!-- The Add Modal -->
 <div class="modal" id="addModal">
     <div class="modal-dialog">
@@ -232,9 +283,7 @@
                 <h4 class="modal-title">Cập nhật Nhân viên</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
-<!--            <form action="/employee/update" class="bg-light text-warning fw-bold p-5">-->
-            <form  class="bg-light text-warning fw-bold p-5">
+            <form class="bg-light text-warning fw-bold p-5">
                 <input type="hidden" id="idUpdate">
                 <div class="mb-3">
                     <label for="updateName" class="form-label ">1. Nhập tên nhân viên</label>
@@ -291,7 +340,6 @@
                                 th:value="${division.divisionId}"
                                 th:text="${division.divisionName}">
                         </option>
-
                     </select>
                 </div>
                 <div class="mb-3">
@@ -316,7 +364,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <div class="modal-header">
+            <div class="modal-header bg-danger text-white">
                 <h4 class="modal-title">DELETE SERVICE</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -335,16 +383,137 @@
     </div>
 </div>
 
+<!--Modal display mess-->
+
+<!-- The mess Modal -->
+<div class="modal" id="messModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h4 class="modal-title text-white">Message</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="messtext" class="fw-bold" th:text="${mess}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--Footer-->
 <footer th:replace="~{common/common::footer}"></footer>
 <script th:replace="~{common/common::js}"></script>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
+    //show list employee
+    function showListEmployee(page, name) {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "http://localhost:8080/employeeRest?page=" + page + "&name=" + name,
+            success: function (employeePage) {
+                let employeeList = employeePage.content;
+                console.log(employeeList);
+                console.log(page)
+                let htmlStr = "";
+                for (let i = 0; i < employeeList.length; i++) {
+                    htmlStr += `
+                    <tr>
+                    <td>${i + 1}</td>
+                    <td>${employeeList[i].employeeName}</td>
+                    <td>${employeeList[i].dateOfBirth}</td>
+                    <td>${employeeList[i].idCard}</td>
+                    <td>${employeeList[i].phoneNumber}</td>
+                    <td>${employeeList[i].email}</td>
+                    <td>${employeeList[i].address}</td>
+                    <td>${employeeList[i].educationDegree.educationDegreeName}</td>
+                    <td>${employeeList[i].position.positionName}</td>
+                    <td>${employeeList[i].division.divisionName}</td>
+                    <td>${employeeList[i].salary}</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                                data-bs-target="#updateModal"
+                                onclick=showUpdateForm(${employeeList[i].employeeId})>
+                            Update
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                onclick=getInfoToDelete(${employeeList[i].employeeId},'${employeeList[i].employeeName}')">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                    `
+                }
+                $('#employeeBody').html(htmlStr);
+            },
+            error: function (resultError) {
+                alert('error');
+            }
+        });
+    }
+
+    //Get total page
+    function getTotalPage() {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "http://localhost:8080/employeeRest/totalPage?",
+            success: function (totalpage) {
+                $('#totalPage').val(totalpage)
+            },
+            error: function (resultError) {
+                alert('error');
+            }
+        });
+    }
+
+    let page = 0;
+
+    // getTotalPage()
 
     function getInfoToDelete(id, name) {
         document.getElementById("idDelete").value = id;
         document.getElementById("nameDelete").value = name;
     }
+
+    //Tìm kiếm theo tên
+    $('#searchBtn').click(function () {
+        let name = $('#nameSearch').val();
+        showListEmployee(page, name)
+    })
+
+    // Phân trang
+    $('#paging0Btn').click(function () {
+        let name = $('#nameSearch').val();
+        showListEmployee(0, name)
+    })
+    $('#pagingPreviousBtn').click(function () {
+        let name = $('#nameSearch').val();
+        if (page > 0) {
+            page = page - 1;
+            $('#currentPage').html(page + 1)
+            showListEmployee(page, name)
+        }
+    })
+    $('#pagingNextBtn').click(function () {
+        page = page + 1;
+        $('#currentPage').html(page + 1)
+        showListEmployee(page, name)
+    });
+    $('#pagingLastBtn').click(function () {
+    })
 
     // Get info to UpdateForm
     function showUpdateForm(id) {
@@ -402,7 +571,7 @@
             address: updateAddress,
             position: updatePosition,
             educationDegree: updateED,
-            division : updateDivision,
+            division: updateDivision,
         }
         console.log(updateEmployeeDto)
         $.ajax({
@@ -414,14 +583,34 @@
             url: "http://localhost:8080/employeeRest/update",
             data: JSON.stringify(updateEmployeeDto),
             success: function (mess) {
-                $('#mess').html(mess);
-                // ${'#reloadBtn'}.();
+                $('#messtext').html(mess);
+                $('#messInput').val(mess);
+
+                // $('#messModal').modal('show');
+                // $('#messModal').click();
             },
             error: function (resultError) {
                 alert('error');
             }
         });
     })
+
+
+    //Hiện modal thông báo thêm sửa xóa thành công
+    $(window).on('load', function () {
+            let mess = $('#messInput').val();
+            if (mess) {
+                $('#messModal').modal('show');
+            }
+        }
+    )
+    // showListEmployee(page, "");
+    // $('#currentPage').html(page+1)
+    //
+    // let a = $('#totalPage').val();
+    // console.log("a: "+ a);
+
 </script>
+
 </body>
 </html>

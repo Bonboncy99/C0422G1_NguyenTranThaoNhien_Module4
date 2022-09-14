@@ -82,6 +82,8 @@ public class CustomerController {
                          RedirectAttributes redirectAttributes) {
         customerDto.validate(customerDto,bindingResult);
         if (bindingResult.hasErrors()){
+            model.addAttribute("customerTypeList", this.iCustomerTypeService.findAll());
+            model.addAttribute("customerDto",customerDto);
             return "customer/update";
         }
         Customer customer = new Customer();
@@ -107,7 +109,7 @@ public class CustomerController {
                          @RequestParam(required = false, defaultValue = "") String customerTypeName,
                          @RequestParam(required = false, defaultValue = "") String phoneSearch,
                          @RequestParam(required = false, defaultValue = "") String emailSearch,
-                         @PageableDefault(size = 3, sort = "customerId", direction = Sort.Direction.ASC) Pageable pageable) {
+                         @PageableDefault(size = 5, sort = "customerId", direction = Sort.Direction.ASC) Pageable pageable) {
         model.addAttribute("customerList", this.iCustomerService.findAllByCustomerNameContainsAndCustomerType_CustomerTypeNameContainsAndPhoneNumberContainsAndEmailContains
                 (nameSearch, customerTypeName, phoneSearch, emailSearch, pageable));
         model.addAttribute("nameSearch", nameSearch);

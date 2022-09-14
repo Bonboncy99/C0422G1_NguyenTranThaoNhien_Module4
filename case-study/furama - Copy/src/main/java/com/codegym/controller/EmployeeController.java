@@ -25,14 +25,16 @@ public class EmployeeController {
     @Autowired
     private IDivisionService iDivisionService;
 
-    @GetMapping("")
-    public String goToServiceList(Model model,
+    @GetMapping(value = {"","/search"})
+    public String goToServiceList(Model model,@RequestParam(defaultValue = "") String name,
                                   @PageableDefault(5) Pageable pageable) {
         model.addAttribute("employee",new Employee());
-        model.addAttribute("employeePage",this.iEmployeeService.findAll(pageable));
+//        model.addAttribute("employeePage",this.iEmployeeService.findAll(pageable));
+        model.addAttribute("employeePage",this.iEmployeeService.findAllAndPaging(name,pageable));
         model.addAttribute("positionList", this.iPositionService.findAll());
         model.addAttribute("divisionList",this.iDivisionService.findAll());
         model.addAttribute("educationDegreeList",this.iEducationDegreeService.findAll());
+        model.addAttribute("name",name);
         return "employee/list";
     }
 

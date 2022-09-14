@@ -1,5 +1,6 @@
 package com.codegym.controller;
 
+import com.codegym.dto.contract.AttachQuanitity;
 import com.codegym.dto.contract.ContractPage;
 import com.codegym.model.contract.AttachFacility;
 import com.codegym.model.contract.ContractDetail;
@@ -36,12 +37,13 @@ public class AttachRestController {
 
 
     @GetMapping("/attachRest")
-    public ResponseEntity<List<AttachFacility>> showList(@RequestParam int id){
-        List<AttachFacility>attachFacilityList = this.iAttachFacilityService.showAttatchFacility(id);
-        if (attachFacilityList.isEmpty()){
+    public ResponseEntity<List<AttachQuanitity>> showList(@RequestParam int id){
+//        List<AttachFacility>attachFacilityList = this.iAttachFacilityService.showAttatchFacility(id);
+        List<AttachQuanitity> attachQuanitityList = this.iAttachFacilityService.showAttatchFacilityQuantity(id);
+        if (attachQuanitityList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(attachFacilityList,HttpStatus.OK);
+        return new ResponseEntity<>(attachQuanitityList,HttpStatus.OK);
     }
 
 //    @GetMapping("/attachRest")

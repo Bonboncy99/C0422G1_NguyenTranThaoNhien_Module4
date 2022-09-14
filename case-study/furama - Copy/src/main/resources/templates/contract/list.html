@@ -9,7 +9,10 @@
 <!--navbar-->
 <div th:replace="~{common/common::navbar}"></div>
 <div style="height: 150px;"></div>
+<h1 class="text-primary text-center">List Contract</h1>
 <div class="container mt-5 mb-5">
+    <input type="hidden" id="messAction" th:value="${mess}" th:if="${mess!=null}">
+    <p th:text="${mess}"></p>
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addContract">
         Thêm hợp đồng
     </button>
@@ -88,27 +91,27 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="contract/addAF">
-            <!-- Modal body -->
+                <!-- Modal body -->
                 <input type="hidden" id="idContract" name="idContract">
-            <div class="modal-body">
-                <label class="form-label" for="attachID">Chọn dịch vụ đi kèm muốn thêm</label>
-                <div class="mb-3">
-                    <select class="form-control" name="attachID" id="attachID">
-                        <option th:each="attach:${attachList}"
-                                th:value="${attach.attach_facility_id}"
-                                th:text="${attach.attach_facility_name}">
-                        </option>
-                    </select>
+                <div class="modal-body">
+                    <label class="form-label" for="attachID">Chọn dịch vụ đi kèm muốn thêm</label>
+                    <div class="mb-3">
+                        <select class="form-control" name="attachID" id="attachID">
+                            <option th:each="attach:${attachList}"
+                                    th:value="${attach.attach_facility_id}"
+                                    th:text="${attach.attach_facility_name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Nhập số lượng</label>
+                        <input type="text" id="quantity" name="quantity" class="form-control"></div>
                 </div>
-                <div class="mb-3">
-                    <label for="quantity" class="form-label">Nhập số lượng</label>
-                    <input type="text" id="quantity" name="quantity" class="form-control"></div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Thêm</button>
                 </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Thoát</button>
-                <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Thêm</button>
-            </div>
             </form>
 
         </div>
@@ -219,6 +222,7 @@
                         <th>Price</th>
                         <th>Unit</th>
                         <th>Status</th>
+                        <th>Quatity</th>
                     </tr>
                     </thead>
                     <tbody id="AFBody">
@@ -236,13 +240,12 @@
     </div>
 </div>
 
-<input type="hidden" id="messAction" th:value="${mess}" th:if="${mess!=null}">
 <!--Footer-->
 <footer th:replace="~{common/common::footer}"></footer>
 <script th:replace="~{common/common::js}"></script>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
-<!--    Hàm hiển thị danh sách đi kèm của từng hợp đồng-->
+    <!--    Hàm hiển thị danh sách đi kèm của từng hợp đồng-->
     function showAF(id) {
         $.ajax({
             headers: {
@@ -252,19 +255,21 @@
             type: "GET",
 
             url: "http://localhost:8080/attachRest?id=" + id,
-            success: function (attachFacilityList) {
-                console.log(attachFacilityList);
+            success: function (attachQuanitityList) {
+                console.log(attachQuanitityList);
                 let htmlStr = "";
                 let total = 0;
-                if (attachFacilityList != null) {
-                    for (let i = 0; i < attachFacilityList.length; i++) {
-                        total += attachFacilityList[i].price;
+
+                if (attachQuanitityList != null) {
+                    for (let i = 0; i < attachQuanitityList.length; i++) {
+                        total += (attachQuanitityList[i].price * attachQuanitityList[i].quantity);
                         htmlStr += `<tr>
                             <td>${i + 1}</td>
-                            <td>${attachFacilityList[i].attach_facility_name}</td>
-                            <td>${attachFacilityList[i].price}</td>
-                            <td>${attachFacilityList[i].unit}</td>
-                            <td>${attachFacilityList[i].status}</td>
+                            <td>${attachQuanitityList[i].attachName}</td>
+                            <td>${attachQuanitityList[i].price}</td>
+                            <td>${attachQuanitityList[i].unit}</td>
+                            <td>${attachQuanitityList[i].status}</td>
+                            <td>${attachQuanitityList[i].quantity}</td>
                             </tr>`
                     }
                 }
@@ -279,9 +284,9 @@
                 alert('error');
             }
         });
-        }
+    }
 
-//        Hàm gửi idcontract để thêm dịch vụ đi kèm
+    //        Hàm gửi idcontract để thêm dịch vụ đi kèm
     function getIdContract(id) {
         $('#idContract').val(id);
     }

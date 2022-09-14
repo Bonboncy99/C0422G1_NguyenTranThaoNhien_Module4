@@ -85,7 +85,7 @@ public class ContractController {
             ContractDetail contractDetail = new ContractDetail(contract,attachFacility,quantity);
             this.iContractDetailService.Add(contractDetail);
         }
-        redirectAttributes.addFlashAttribute("mess","Add Attach facility success");
+        redirectAttributes.addFlashAttribute("messAction","Add Attach facility success");
         return "redirect:/contract";
     }
     @GetMapping("")
@@ -99,4 +99,17 @@ public class ContractController {
         Page<ContractPage> contractPageList = this.iContractService.showListContract(pageable);
         return "contract/list";
     }
+
+//    @GetMapping("")
+//    public String goToList(Model model, @PageableDefault(5) Pageable pageable) {
+//        model.addAttribute("newAF", new ContractDetail());
+//        model.addAttribute("attachList",this.iAttachFacilityService.findAll());
+//        model.addAttribute("customerList", this.iCustomerService.findAll());
+//        model.addAttribute("employeeList", this.iEmployeeService.findAll());
+//        model.addAttribute("facilityList", this.iFacilityService.findAll());
+//        model.addAttribute("newContract", new Contract());
+//        model.addAttribute("contractPageList", this.iContractService.showListContract(pageable));
+//        Page<ContractPage> contractPageList = this.iContractService.showListContract(pageable);
+//        return "contract/list";
+//    }
 }

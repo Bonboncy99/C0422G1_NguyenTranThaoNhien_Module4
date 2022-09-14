@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IEmployeeService {
     Page<Employee> findAll(Pageable pageable);
+    Page<Employee>findAllAndPaging(String name, Pageable pageable);
     List<Employee> findAll();
     void add (Employee employee);
     void update(Employee employee);

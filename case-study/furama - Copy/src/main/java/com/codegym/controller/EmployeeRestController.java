@@ -10,11 +10,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("employeeRest")
+import java.util.List;
+
+@RequestMapping("/employeeRest")
 @RestController
 public class EmployeeRestController {
     @Autowired
@@ -26,6 +29,26 @@ public class EmployeeRestController {
     @Autowired
     private IDivisionService iDivisionService;
 
+    @GetMapping(value = {"","/search"})
+    public ResponseEntity<Page<Employee>> findAll(@PageableDefault(5) Pageable pageable,@RequestParam(defaultValue = "") String name ){
+        Page<Employee>employeePage = this.iEmployeeService.findAllAndPaging(name,pageable);
+        if (employeePage.hasContent()){
+            return new ResponseEntity<>(employeePage,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = {"/totalPage"})
+    public ResponseEntity<Integer> getTotalPage(@PageableDefault(5)Pageable pageable){
+        String name="";
+        Page<Employee>employeePage = this.iEmployeeService.findAllAndPaging(name,pageable);
+        int totalPage = employeePage.getTotalPages();
+        if (employeePage.hasContent()){
+            return new ResponseEntity<>(totalPage,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping("/showUpdate")
     public ResponseEntity<Employee>goformUpdate(@RequestParam int idUpdate){
         Employee employeeUpdate = this.iEmployeeService.findById(idUpdate);
@@ -34,7 +57,6 @@ public class EmployeeRestController {
         }
         return new ResponseEntity<>(employeeUpdate,HttpStatus.OK);
     }
-
 
     @PatchMapping("/update")
     public ResponseEntity<String> update(@RequestBody EmployeeDto employeeDto){
@@ -49,6 +71,7 @@ public class EmployeeRestController {
         this.iEmployeeService.update(employee);
         String mess = "Update success";
         return new ResponseEntity<>(mess,HttpStatus.OK);
+
 
     }
 }

@@ -12,7 +12,7 @@
 <body>
 <h1 class="bg-light text-info text-center">LIST CUSTOMER</h1>
 
-<p class="text-success" th:text="${messUpdate}"></p>
+<input type="hidden" id="messInput" th:value="${mess}"></input>
 
 <div class="container mt-3 mb-3">
     <div class="row">
@@ -31,21 +31,25 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label class="form-label" for="nameSearch">Name</label>
-                        <input class="form-control" type="text" id="nameSearch" th:value="${nameSearch}" name="nameSearch">
+                        <input class="form-control" type="text" id="nameSearch" th:value="${nameSearch}"
+                               name="nameSearch">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label" for="phoneSearch">Phone</label>
-                        <input class="form-control" type="text" id="phoneSearch" th:value="${phoneSearch}"name="phoneSearch">
+                        <input class="form-control" type="text" id="phoneSearch" th:value="${phoneSearch}"
+                               name="phoneSearch">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label" for="emailSearch">Email</label>
-                        <input class="form-control" type="text" id="emailSearch" th:value="${emailSearch}"name="emailSearch">
+                        <input class="form-control" type="text" id="emailSearch" th:value="${emailSearch}"
+                               name="emailSearch">
                     </div>
                 </div>
                 <div class="row">
                     <select name="customerTypeName" class="form-control">
                         <option value="">Select Customer Type</option>
-                        <option th:each="customerType:${customerTypeList}" th:value="${customerType.customerTypeName}" th:text="${customerType.customerTypeName}"></option>
+                        <option th:each="customerType:${customerTypeList}" th:value="${customerType.customerTypeName}"
+                                th:text="${customerType.customerTypeName}"></option>
                     </select>
                 </div>
                 <button class="btn btn-success">Search</button>
@@ -96,7 +100,8 @@
             </td>
             <td>
                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                        data-bs-target="#deleteModal" th:attr="onclick=|getInfoToDelete('${customer.customerId}','${customer.customerName}')|">
+                        data-bs-target="#deleteModal"
+                        th:attr="onclick=|getInfoToDelete('${customer.customerId}','${customer.customerName}')|">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-trash-fill" viewBox="0 0 16 16">
                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
@@ -111,10 +116,18 @@
 <!--Phân trang-->
 <nav aria-label="Page navigation example">
     <ul class="pagination">
-        <li class="page-item"><a  class="page-link" th:href="@{/customer(page=0,nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}">First</a></li>
-        <li class="page-item"><a class="page-link" th:href="@{/customer(page=${customerList.number - 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}" th:if="${customerList.hasPrevious()}">Previous</a></li>
-        <li class="page-item"><a class="page-link" th:href="@{/customer(page=${customerList.number + 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}" th:if="${customerList.hasNext()}">Next</a></li>
-        <li class="page-item"><a class="page-link" th:href="@{/customer(page=${customerList.totalPages - 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}">Last</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/customer(page=0,nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}">First</a>
+        </li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/customer(page=${customerList.number - 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}"
+                                 th:if="${customerList.hasPrevious()}">Previous</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/customer(page=${customerList.number + 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}"
+                                 th:if="${customerList.hasNext()}">Next</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/customer(page=${customerList.totalPages - 1},nameSearch = ${nameSearch},phoneSearch = ${phoneSearch},emailSearch = ${emailSearch},customerTypeName = ${customerTypeName})}">Last</a>
+        </li>
         <li class="page-item disabled">
             <a href="#" class="page-link">
                 <span th:text="${customerList.number + 1}"></span>
@@ -154,14 +167,42 @@
         </div>
     </div>
 </div>
+
+<!-- The mess Modal -->
+<div class="modal" id="messModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h4 class="modal-title text-white">Message</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="messtext" class="fw-bold" th:text="${mess}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:replace="~{common/common::js}"></script>
+<script src="/js/jquery-3.6.1.min.js"></script>
 <script>
     function getInfoToDelete(id, name) {
         document.getElementById("idDelete").value = id;
         document.getElementById("nameDelete").value = name;
     }
+
+    //Tự hiện modal mess sau khi thêm sửa xóa
+    $(window).on('load', function () {
+            let mess = $('#messInput').val();
+            if (mess) {
+                $('#messModal').modal('show');
+            }
+        }
+    )
 </script>
-<script src="../bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+
 </body>
-<script th:replace="~{common/common::js}"></script>
 </body>
 </html>
