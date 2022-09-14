@@ -15,235 +15,130 @@
 
 <!--Form search-->
 <div class="container">
-    <!--    search AJAX-->
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" id="nameSearch"
-               placeholder="Search name">
-        <button class="btn btn-success" id="searchBtn" type="submit">Go</button>
-    </div>
-
-    <!--    search thuwofng-->
-    <!--    <form action="/employee/search">-->
-    <!--        <div class="input-group mb-3">-->
-    <!--            <input type="text" class="form-control" i name="name" th:value="${name}"-->
-    <!--                   placeholder="Search name">-->
-    <!--            <button class="btn btn-success" id="searchBtn" type="submit">Go</button>-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!--</div>-->
-
-    <!--table list employee-->
-    <table class="table table-bordered table-hover table-light table-striped table-responsive">
-        <thead class="table-danger text-center">
-        <tr>
-            <th>#</th>
-            <th>Tên nhân viên</th>
-            <th>Ngày sinh</th>
-            <th>Số CMND</th>
-            <th>Số điện thoại</th>
-            <th>Email</th>
-            <th>Địa chỉ</th>
-            <th>Trình độ</th>
-            <th>Vị trí</th>
-            <th>Bộ phận</th>
-            <th>Lương</th>
-            <th colspan="3">Các chức năng</th>
-        </tr>
-        </thead>
-        <tbody id="employeeBody">
-        <!--    <tr th:each="employee,status:${employeePage}">-->
-        <!--        <td th:text="${status.count}"></td>-->
-        <!--        <td th:text="${employee.employeeName}"></td>-->
-        <!--        <td th:text="${employee.dateOfBirth}"></td>-->
-        <!--        <td th:text="${employee.idCard}"></td>-->
-        <!--        <td th:text="${employee.phoneNumber}"></td>-->
-        <!--        <td th:text="${employee.email}"></td>-->
-        <!--        <td th:text="${employee.address}"></td>-->
-        <!--        <td th:text="${employee.educationDegree.educationDegreeName}"></td>-->
-        <!--        <td th:text="${employee.position.positionName}"></td>-->
-        <!--        <td th:text="${employee.division.divisionName}"></td>-->
-        <!--        <td th:text="${employee.salary}"></td>-->
-        <!--        <td>-->
-        <!--            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"-->
-        <!--                    data-bs-target="#updateModal"-->
-        <!--                    th:attr="onclick=|showUpdateForm('${employee.employeeId}')|">-->
-        <!--                Update-->
-        <!--            </button>-->
-        <!--        </td>-->
-        <!--        <td>-->
-        <!--            <button type="button" class="btn btn-outline-danger"-->
-        <!--                    data-bs-toggle="modal" data-bs-target="#deleteModal"-->
-        <!--                    th:attr="onclick=|getInfoToDelete('${employee.employeeId}','${employee.employeeName}')|">-->
-        <!--                Delete-->
-        <!--            </button>-->
-        <!--        </td>-->
-        <!--    </tr>-->
-        </tbody>
-    </table>
-
-    <!--Phân trang-->
-    <!--Phân trang Ajax-->
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" id="paging0Btn">First</a></li>
-            <li class="page-item"><a class="page-link" id="pagingPreviousBtn">Previous</a></li>
-            <li class="page-item"><a class="page-link" id="pagingNextBtn">Next</a></li>
-            <li class="page-item"><a class="page-link" id="pagingLastBtn">Last</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#" id="currentPage"></a></li>
-        </ul>
-    </nav>
-
-
-    <!--phân trang thường-->
-    <!--<nav aria-label="Page navigation example">-->
-    <!--    <ul class="pagination">-->
-    <!--        <li class="page-item"><a class="page-link" th:href="@{/employee(page=0,name=${name})}">First</a></li>-->
-    <!--        <li class="page-item"><a class="page-link"-->
-    <!--                                 th:href="@{/employee(page=${employeePage.number - 1},name=${name})}"-->
-    <!--                                 th:if="${employeePage.hasPrevious()}">Previous</a></li>-->
-    <!--        <li class="page-item"><a class="page-link"-->
-    <!--                                 th:href="@{/employee(page=${employeePage.number + 1},name=${name})}"-->
-    <!--                                 th:if="${employeePage.hasNext()}">Next</a></li>-->
-    <!--        <li class="page-item"><a class="page-link"-->
-    <!--                                 th:href="@{/employee(page=${employeePage.totalPages - 1},name=${name})}">Last</a></li>-->
-    <!--        <li class="page-item disabled"><a class="page-link">-->
-    <!--            <span th:text="${employeePage.number +1}"></span>-->
-    <!--            /-->
-    <!--            <span th:text="${employeePage.totalPages}"></span>-->
-    <!--        </a></li>-->
-    <!--    </ul>-->
-    <!--</nav>-->
-    <!-- The Add Modal -->
-    <div class="modal" id="addModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header bg-success text-white text-center">
-                    <h4 class="modal-title">Thêm mới Nhân viên</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <form action="/employee/add" method="post" class="bg-light text-success fw-bold"
-                      th:object="${employee}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="newName" class="form-label ">1. Nhập tên nhân viên</label>
-                            <input type="text" class="form-control" id="newName"
-                                   placeholder="Nhập tên nhân viên" th:field="*{employeeName}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newBirthDay" class="form-label ">2. Nhập ngày sinh </label>
-                            <input type="date" class="form-control" id="newBirthDay"
-                                   placeholder="Nhập ngày sinh" th:field="*{dateOfBirth}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newIDCard" class="form-label ">3. Nhập số CMND</label>
-                            <input type="text" class="form-control" id="newIDCard"
-                                   placeholder="Nhập số CMND" th:field="*{idCard}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newPhone" class="form-label ">4. Nhập số điện thoại</label>
-                            <input type="text" class="form-control" id="newPhone"
-                                   placeholder="Nhập số điện thoại" th:field="*{phoneNumber}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newEmail" class="form-label ">5. Nhập email</label>
-                            <input type="text" class="form-control" id="newEmail"
-                                   placeholder="Nhập email" th:field="*{email}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newAddress" class="form-label ">5. Nhập địa chỉ</label>
-                            <input type="text" class="form-control" id="newAddress"
-                                   placeholder="Nhập địa chỉ" th:field="*{address}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newED" class="form-label ">6. Chọn trình độ</label>
-                            <select id="newED" class="form-control" th:field="*{educationDegree}">
-                                <option th:each="educationDegree:${educationDegreeList}"
-                                        th:value="${educationDegree.educationDegreeId}"
-                                        th:text="${educationDegree.educationDegreeName}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="newPosition" class="form-label ">7. Chọn vị trí</label>
-                            <select id="newPosition" class="form-control" th:field="*{position}">
-                                <option th:each="position:${positionList}"
-                                        th:value="${position.positionId}"
-                                        th:text="${position.positionName}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mb-3">.
-                            <label for="newDivision" class="form-label ">8. Chọn bộ phận</label>
-                            <select id="newDivision" class="form-control" th:field="*{division}">
-                                <option th:each="division:${divisionList}"
-                                        th:value="${division.divisionId}"
-                                        th:text="${division.divisionName}">
-                                </option>
-
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="newSalary" class="form-label ">9.Nhập lương</label>
-                            <input type="text" class="form-control" id="newSalary"
-                                   placeholder="Nhập lương" th:field="*{salary}">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" id="addBtn" class="btn btn-outline-success">Thêm mới</button>
-                    </div>
-                </form>
-
-            </div>
+    <!--        search thuwofng-->
+    <form action="/employee/search">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" i name="name" th:value="${name}"
+                   placeholder="Search name">
+            <button class="btn btn-success" id="searchBtn" type="submit">Go</button>
         </div>
-    </div>
+    </form>
+</div>
 
-    <!--The Update Modal-->
-    <div class="modal" id="updateModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
+<!--table list employee-->
+<table class="table table-bordered table-hover table-light table-striped table-responsive">
+    <thead class="table-danger text-center">
+    <tr>
+        <th>#</th>
+        <th>Tên nhân viên</th>
+        <th>Ngày sinh</th>
+        <th>Số CMND</th>
+        <th>Số điện thoại</th>
+        <th>Email</th>
+        <th>Địa chỉ</th>
+        <th>Trình độ</th>
+        <th>Vị trí</th>
+        <th>Bộ phận</th>
+        <th>Lương</th>
+        <th colspan="3">Các chức năng</th>
+    </tr>
+    </thead>
+    <tbody id="employeeBody">
+    <tr th:each="employee,status:${employeePage}">
+        <td th:text="${status.count}"></td>
+        <td th:text="${employee.employeeName}"></td>
+        <td th:text="${employee.dateOfBirth}"></td>
+        <td th:text="${employee.idCard}"></td>
+        <td th:text="${employee.phoneNumber}"></td>
+        <td th:text="${employee.email}"></td>
+        <td th:text="${employee.address}"></td>
+        <td th:text="${employee.educationDegree.educationDegreeName}"></td>
+        <td th:text="${employee.position.positionName}"></td>
+        <td th:text="${employee.division.divisionName}"></td>
+        <td th:text="${employee.salary}"></td>
+        <td>
+            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                    data-bs-target="#updateModal"
+                    th:attr="onclick=|showUpdateForm('${employee.employeeId}')|">
+                Update
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-outline-danger"
+                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                    th:attr="onclick=|getInfoToDelete('${employee.employeeId}','${employee.employeeName}')|">
+                Delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
-                <div class="modal-header bg-warning text-white text-center">
-                    <h4 class="modal-title">Cập nhật Nhân viên</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form class="bg-light text-warning fw-bold p-5">
-                    <input type="hidden" id="idUpdate">
+<!--Phân trang-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" th:href="@{/employee(page=0,name=${name})}">First</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/employee(page=${employeePage.number - 1},name=${name})}"
+                                 th:if="${employeePage.hasPrevious()}">Previous</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/employee(page=${employeePage.number + 1},name=${name})}"
+                                 th:if="${employeePage.hasNext()}">Next</a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="@{/employee(page=${employeePage.totalPages - 1},name=${name})}">Last</a></li>
+        <li class="page-item disabled"><a class="page-link">
+            <span th:text="${employeePage.number +1}"></span>
+            /
+            <span th:text="${employeePage.totalPages}"></span>
+        </a></li>
+    </ul>
+</nav>
+<!-- The Add Modal -->
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white text-center">
+                <h4 class="modal-title">Thêm mới Nhân viên</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="/employee/add" method="post" class="bg-light text-success fw-bold"
+                  th:object="${employee}">
+                <div class="modal-body">
                     <div class="mb-3">
-                        <label for="updateName" class="form-label ">1. Nhập tên nhân viên</label>
-                        <input type="text" class="form-control" id="updateName"
-                               placeholder="Nhập tên nhân viên">
+                        <label for="newName" class="form-label ">1. Nhập tên nhân viên</label>
+                        <input type="text" class="form-control" id="newName"
+                               placeholder="Nhập tên nhân viên" th:field="*{employeeName}">
                     </div>
                     <div class="mb-3">
-                        <label for="updateBirthDay" class="form-label ">2. Nhập ngày sinh </label>
-                        <input type="date" class="form-control" id="updateBirthDay"
-                               placeholder="Nhập ngày sinh">
+                        <label for="newBirthDay" class="form-label ">2. Nhập ngày sinh </label>
+                        <input type="date" class="form-control" id="newBirthDay"
+                               placeholder="Nhập ngày sinh" th:field="*{dateOfBirth}">
                     </div>
                     <div class="mb-3">
-                        <label for="updateIDCard" class="form-label ">3. Nhập số CMND</label>
-                        <input type="text" class="form-control" id="updateIDCard"
-                               placeholder="Nhập số CMND">
+                        <label for="newIDCard" class="form-label ">3. Nhập số CMND</label>
+                        <input type="text" class="form-control" id="newIDCard"
+                               placeholder="Nhập số CMND" th:field="*{idCard}">
                     </div>
                     <div class="mb-3">
-                        <label for="updatePhone" class="form-label ">4. Nhập số điện thoại</label>
-                        <input type="text" class="form-control" id="updatePhone"
-                               placeholder="Nhập số điện thoại">
+                        <label for="newPhone" class="form-label ">4. Nhập số điện thoại</label>
+                        <input type="text" class="form-control" id="newPhone"
+                               placeholder="Nhập số điện thoại" th:field="*{phoneNumber}">
                     </div>
                     <div class="mb-3">
-                        <label for="updateEmail" class="form-label ">5. Nhập email</label>
-                        <input type="text" class="form-control" id="updateEmail"
-                               placeholder="Nhập email">
+                        <label for="newEmail" class="form-label ">5. Nhập email</label>
+                        <input type="text" class="form-control" id="newEmail"
+                               placeholder="Nhập email" th:field="*{email}">
                     </div>
                     <div class="mb-3">
-                        <label for="updateAddress" class="form-label ">5. Nhập địa chỉ</label>
-                        <input type="text" class="form-control" id="updateAddress"
-                               placeholder="Nhập địa chỉ">
+                        <label for="newAddress" class="form-label ">5. Nhập địa chỉ</label>
+                        <input type="text" class="form-control" id="newAddress"
+                               placeholder="Nhập địa chỉ" th:field="*{address}">
                     </div>
                     <div class="mb-3">
-                        <label for="updateED" class="form-label ">6. Chọn trình độ</label>
-                        <select id="updateED" class="form-control">
+                        <label for="newED" class="form-label ">6. Chọn trình độ</label>
+                        <select id="newED" class="form-control" th:field="*{educationDegree}">
                             <option th:each="educationDegree:${educationDegreeList}"
                                     th:value="${educationDegree.educationDegreeId}"
                                     th:text="${educationDegree.educationDegreeName}">
@@ -251,8 +146,8 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="updatePosition" class="form-label ">7. Chọn vị trí</label>
-                        <select id="updatePosition" class="form-control">
+                        <label for="newPosition" class="form-label ">7. Chọn vị trí</label>
+                        <select id="newPosition" class="form-control" th:field="*{position}">
                             <option th:each="position:${positionList}"
                                     th:value="${position.positionId}"
                                     th:text="${position.positionName}">
@@ -260,262 +155,265 @@
                         </select>
                     </div>
                     <div class="mb-3">.
-                        <label for="updateDivision" class="form-label ">8. Chọn bộ phận</label>
-                        <select id="updateDivision" class="form-control">
+                        <label for="newDivision" class="form-label ">8. Chọn bộ phận</label>
+                        <select id="newDivision" class="form-control" th:field="*{division}">
                             <option th:each="division:${divisionList}"
                                     th:value="${division.divisionId}"
                                     th:text="${division.divisionName}">
                             </option>
+
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="updateSalary" class="form-label ">9.Nhập lương</label>
-                        <input type="text" class="form-control" id="updateSalary"
-                               placeholder="Nhập lương">
+                        <label for="newSalary" class="form-label ">9.Nhập lương</label>
+                        <input type="text" class="form-control" id="newSalary"
+                               placeholder="Nhập lương" th:field="*{salary}">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" id="updateBtn" class="btn btn-outline-warning">Cập nhật</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-
-    </div>
-
-
-    <!-- The Delete Modal ok-->
-    <div class="modal" id="deleteModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header bg-danger text-white">
-                    <h4 class="modal-title">DELETE EMPLOYEE</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form action="/employee/delete" method="get">
-                    <div class="modal-body">
-                        <p>Bạn muốn xóa nhân viên</span>? </p>
-                        <input type="text" hidden readonly name="idDelete" id="idDelete">
-                        <input type="text" readonly id="nameDelete">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- The mess Modal -->
-    <div class="modal" id="messModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <h4 class="modal-title text-white">Message</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="messtext" class="fw-bold" th:text="${mess}"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="addBtn" class="btn btn-outline-success">Thêm mới</button>
                 </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!--The Update Modal-->
+<div class="modal" id="updateModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning text-white text-center">
+                <h4 class="modal-title">Cập nhật Nhân viên</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form class="bg-light text-warning fw-bold p-5">
+                <input type="hidden" id="idUpdate">
+                <div class="mb-3">
+                    <label for="updateName" class="form-label ">1. Nhập tên nhân viên</label>
+                    <input type="text" class="form-control" id="updateName"
+                           placeholder="Nhập tên nhân viên">
+                </div>
+                <div class="mb-3">
+                    <label for="updateBirthDay" class="form-label ">2. Nhập ngày sinh </label>
+                    <input type="date" class="form-control" id="updateBirthDay"
+                           placeholder="Nhập ngày sinh">
+                </div>
+                <div class="mb-3">
+                    <label for="updateIDCard" class="form-label ">3. Nhập số CMND</label>
+                    <input type="text" class="form-control" id="updateIDCard"
+                           placeholder="Nhập số CMND">
+                </div>
+                <div class="mb-3">
+                    <label for="updatePhone" class="form-label ">4. Nhập số điện thoại</label>
+                    <input type="text" class="form-control" id="updatePhone"
+                           placeholder="Nhập số điện thoại">
+                </div>
+                <div class="mb-3">
+                    <label for="updateEmail" class="form-label ">5. Nhập email</label>
+                    <input type="text" class="form-control" id="updateEmail"
+                           placeholder="Nhập email">
+                </div>
+                <div class="mb-3">
+                    <label for="updateAddress" class="form-label ">5. Nhập địa chỉ</label>
+                    <input type="text" class="form-control" id="updateAddress"
+                           placeholder="Nhập địa chỉ">
+                </div>
+                <div class="mb-3">
+                    <label for="updateED" class="form-label ">6. Chọn trình độ</label>
+                    <select id="updateED" class="form-control">
+                        <option th:each="educationDegree:${educationDegreeList}"
+                                th:value="${educationDegree.educationDegreeId}"
+                                th:text="${educationDegree.educationDegreeName}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="updatePosition" class="form-label ">7. Chọn vị trí</label>
+                    <select id="updatePosition" class="form-control">
+                        <option th:each="position:${positionList}"
+                                th:value="${position.positionId}"
+                                th:text="${position.positionName}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">.
+                    <label for="updateDivision" class="form-label ">8. Chọn bộ phận</label>
+                    <select id="updateDivision" class="form-control">
+                        <option th:each="division:${divisionList}"
+                                th:value="${division.divisionId}"
+                                th:text="${division.divisionName}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="updateSalary" class="form-label ">9.Nhập lương</label>
+                    <input type="text" class="form-control" id="updateSalary"
+                           placeholder="Nhập lương">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="updateBtn" class="btn btn-outline-warning">Cập nhật</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- The Delete Modal ok-->
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+                <h4 class="modal-title">DELETE EMPLOYEE</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/employee/delete" method="get">
+                <div class="modal-body">
+                    <p>Bạn muốn xóa nhân viên</span>? </p>
+                    <input type="text" hidden readonly name="idDelete" id="idDelete">
+                    <input type="text" readonly id="nameDelete">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- The mess Modal -->
+<div class="modal" id="messModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h4 class="modal-title text-white">Message</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="messtext" class="fw-bold" th:text="${mess}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-    <!--Footer-->
-    <footer th:replace="~{common/common::footer}"></footer>
-    <script th:replace="~{common/common::js}"></script>
-    <script src="/js/jquery-3.6.1.min.js"></script>
-    <script>
-        //show list employee
-        let totalPage;
-        let page = 0;
 
-        function showListEmployee(page, name) {
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "GET",
-                url: "http://localhost:8080/employeeRest?page=" + page + "&name=" + name,
-                success: function (employeePage) {
-                    let employeeList = employeePage.content;
-                    console.log(employeeList);
-                    totalPage = employeePage.totalPages;
-                    console.log(totalPage)
-                    let htmlStr = "";
-                    for (let i = 0; i < employeeList.length; i++) {
-                        htmlStr += `
-                    <tr>
-                    <td>${i + 1}</td>
-                    <td>${employeeList[i].employeeName}</td>
-                    <td>${employeeList[i].dateOfBirth}</td>
-                    <td>${employeeList[i].idCard}</td>
-                    <td>${employeeList[i].phoneNumber}</td>
-                    <td>${employeeList[i].email}</td>
-                    <td>${employeeList[i].address}</td>
-                    <td>${employeeList[i].educationDegree.educationDegreeName}</td>
-                    <td>${employeeList[i].position.positionName}</td>
-                    <td>${employeeList[i].division.divisionName}</td>
-                    <td>${employeeList[i].salary}</td>
-                    <td>
-                        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
-                                data-bs-target="#updateModal"
-                                onclick=showUpdateForm(${employeeList[i].employeeId})>
-                            Update
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-outline-danger"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                onclick="getInfoToDelete(2,"bon")">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                    `
-                    }
-                    $('#employeeBody').html(htmlStr)},
-                error: function (resultError) {
-                    alert('lỗi hiện list');
-                    showListEmployee(page, name)
+<form action="/employee/messUpdate">
+    <input type="hidden" name="mess" value="Update success">
+</form>
+</div>
+<!--Footer-->
+<footer th:replace="~{common/common::footer}"></footer>
+<script th:replace="~{common/common::js}"></script>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+    function getInfoToDelete(id, name) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").value = name;
+    }
 
-                }
-            });
-        }
+    // Get info to UpdateForm
+    function showUpdateForm(id) {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "http://localhost:8080/employeeRest/showUpdate?idUpdate=" + id,
+            success: function (employeeUpdate) {
 
-        function getInfoToDelete(id, name) {
-            document.getElementById("idDelete").value = id;
-            document.getElementById("nameDelete").value = name;
-        }
-
-        //Tìm kiếm theo tên
-        $('#searchBtn').click(function () {
-            let name = $('#nameSearch').val();
-            showListEmployee(page, name)
-        })
-
-        // Phân trang
-        $('#paging0Btn').click(function () {
-            let name = $('#nameSearch').val();
-            showListEmployee(0, name)
-        })
-        $('#pagingPreviousBtn').click(function () {
-            let name = $('#nameSearch').val();
-            if (page > 0) {
-                page = page - 1;
-                $('#currentPage').html(page + 1)
-                showListEmployee(page, name)
+                $('#idUpdate').val(employeeUpdate.employeeId);
+                $('#updateName').val(employeeUpdate.employeeName);
+                $('#updateBirthDay').val(employeeUpdate.dateOfBirth);
+                $('#updateIDCard').val(employeeUpdate.idCard);
+                $('#updatePhone').val(employeeUpdate.phoneNumber);
+                $('#updateEmail').val(employeeUpdate.email);
+                $('#updateAddress').val(employeeUpdate.address);
+                $('#updateED').val(employeeUpdate.educationDegree.educationDegreeId);
+                $('#updatePosition').val(employeeUpdate.position.positionId);
+                $('#updateDivision').val(employeeUpdate.division.divisionId);
+                $('#updateSalary').val(employeeUpdate.salary);
+            },
+            error: function (resultError) {
+                alert('error show update');
             }
-        })
-        $('#pagingNextBtn').click(function () {
-            page = page + 1;
-            $('#currentPage').html(page + 1)
-            showListEmployee(page, name)
         });
-        $('#pagingLastBtn').click(function () {
-        })
+    }
 
-        // Get info to UpdateForm
-        function showUpdateForm(id) {
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "GET",
-                url: "http://localhost:8080/employeeRest/showUpdate?idUpdate=" + id,
-                success: function (employeeUpdate) {
-
-                    $('#idUpdate').val(employeeUpdate.employeeId);
-                    $('#updateName').val(employeeUpdate.employeeName);
-                    $('#updateBirthDay').val(employeeUpdate.dateOfBirth);
-                    $('#updateIDCard').val(employeeUpdate.idCard);
-                    $('#updatePhone').val(employeeUpdate.phoneNumber);
-                    $('#updateEmail').val(employeeUpdate.email);
-                    $('#updateAddress').val(employeeUpdate.address);
-                    $('#updateED').val(employeeUpdate.educationDegree.educationDegreeId);
-                    $('#updatePosition').val(employeeUpdate.position.positionId);
-                    $('#updateDivision').val(employeeUpdate.division.divisionId);
-                    $('#updateSalary').val(employeeUpdate.salary);
-                },
-                error: function (resultError) {
-                    alert('error show update');
-                }
-            });
+    // Update Employee
+    $('#updateBtn').click(function (event) {
+        let idUpdate = $('#idUpdate').val();
+        let updateName = $('#updateName').val();
+        let updateBirthDay = $('#updateBirthDay').val();
+        let updateIDCard = $('#updateIDCard').val();
+        let updatePhone = $('#updatePhone').val();
+        let updateEmail = $('#updateEmail').val();
+        let updateAddress = $('#updateAddress').val();
+        let updateED = $('#updateED').val();
+        let updatePosition = $('#updatePosition').val();
+        let updateDivision = $('#updateDivision').val();
+        let updateSalary = $('#updateSalary').val();
+        console.log(updatePosition);
+        console.log(updateDivision);
+        console.log(updateED);
+        let updateEmployeeDto = {
+            employeeId: idUpdate,
+            employeeName: updateName,
+            dateOfBirth: updateBirthDay,
+            idCard: updateIDCard,
+            salary: updateSalary,
+            phoneNumber: updatePhone,
+            email: updateEmail,
+            address: updateAddress,
+            position: updatePosition,
+            educationDegree: updateED,
+            division: updateDivision,
         }
+        console.log(updateEmployeeDto)
 
-        // Update Employee
-        $('#updateBtn').click(function (event) {
-            let idUpdate = $('#idUpdate').val();
-            let updateName = $('#updateName').val();
-            let updateBirthDay = $('#updateBirthDay').val();
-            let updateIDCard = $('#updateIDCard').val();
-            let updatePhone = $('#updatePhone').val();
-            let updateEmail = $('#updateEmail').val();
-            let updateAddress = $('#updateAddress').val();
-            let updateED = $('#updateED').val();
-            let updatePosition = $('#updatePosition').val();
-            let updateDivision = $('#updateDivision').val();
-            let updateSalary = $('#updateSalary').val();
-            console.log(updatePosition);
-            console.log(updateDivision);
-            console.log(updateED);
-            let updateEmployeeDto = {
-                employeeId: idUpdate,
-                employeeName: updateName,
-                dateOfBirth: updateBirthDay,
-                idCard: updateIDCard,
-                salary: updateSalary,
-                phoneNumber: updatePhone,
-                email: updateEmail,
-                address: updateAddress,
-                position: updatePosition,
-                educationDegree: updateED,
-                division: updateDivision,
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "PATCH",
+            url: "http://localhost:8080/employeeRest/update",
+            data: JSON.stringify(updateEmployeeDto),
+            success: function () {
+                // $('#messtext').html(mess);
+                // showListEmployee(page, name)
+
+                let mess = "Cập nhật thành công"
+                $('#messtext').html(mess);
+                $('#messModal').modal('show');
+            },
+            error: function (resultError) {
+                alert('error update');
             }
-            console.log(updateEmployeeDto)
-
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "PATCH",
-                url: "http://localhost:8080/employeeRest/update",
-                data: JSON.stringify(updateEmployeeDto),
-                success: function (mess) {
-                    $('#messtext').html(mess);
-                    // $('#messModal').modal('show');
-                    // $('#messModal').click();
-                    showListEmployee(page, name)
-                    $('#messInput').val(mess);
-
-                },
-                error: function (resultError) {
-                    alert('error update');
-                }
-            });
-        })
+        });
+    })
 
 
-        //Hiện modal thông báo thêm sửa xóa thành công
-        $(window).on('load', function () {
-                let mess = $('#messInput').val();
-                if (mess) {
-                    $('#messModal').modal('show');
-                }
+    //Hiện modal thông báo thêm sửa xóa thành công
+    $(window).on('load', function () {
+            let mess = $('#messInput').val();
+            if (mess) {
+                $('#messModal').modal('show');
             }
-        )
-        showListEmployee(page, "");
-    </script>
+        }
+    )
+</script>
 
 </body>
 </html>
